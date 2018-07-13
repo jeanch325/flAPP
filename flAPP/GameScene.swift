@@ -34,7 +34,6 @@ class GameScene: SKScene {
         let sky = SKTexture(imageNamed: "sky")
         for i in 0...1 {
             let skyBackground = SKSpriteNode(texture: sky)
-            skyBackground.
             skyBackground.zPosition = -1
             skyBackground.position = CGPoint(x: 0, y: skyBackground.size.height * CGFloat(i))
             addChild(skyBackground)
@@ -63,6 +62,7 @@ class GameScene: SKScene {
         ball.physicsBody?.restitution = 1
          ball.physicsBody?.linearDamping = 0
         ball.physicsBody?.contactTestBitMask = (ball.physicsBody?.collisionBitMask)!
+        addChild(ball)
         
     }
     
