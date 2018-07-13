@@ -17,10 +17,12 @@ class GameScene: SKScene {
     
     override func didMove(to view: SKView) {
         makeBrick()
+        let moveBottomLeft = SKAction.move(to: CGPoint(x: frame.minX,y: frame.minY + 50), duration:2.0)
+        brick.run(moveBottomLeft)
     }
     func makeBrick() {
-        brick = SKSpriteNode(color: UIColor.blue, size: CGSize(width: 50, height: 20))
-        brick.position = CGPoint(x: frame.midX, y: frame.maxY - 30)
+        brick = SKSpriteNode(color: UIColor.blue, size: CGSize(width: 100, height: 300))
+        brick.position = CGPoint(x: frame.midX, y: frame.minY + 50)
         brick.name = "brick"
         brick.physicsBody = SKPhysicsBody(rectangleOf: brick.size)
         brick.physicsBody?.isDynamic = false
