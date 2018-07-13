@@ -18,8 +18,8 @@ class GameScene: SKScene {
         createBackground()
     }
     func makeBrick() {
-        brick = SKSpriteNode(color: UIColor.blue, size: CGSize(width: 50, height: 20))
-        brick.position = CGPoint(x: frame.midX, y: frame.maxY - 30)
+        brick = SKSpriteNode(color: UIColor.blue, size: CGSize(width: 100, height: 300))
+        brick.position = CGPoint(x: frame.midX, y: frame.minY + 50)
         brick.name = "brick"
         brick.physicsBody = SKPhysicsBody(rectangleOf: brick.size)
         brick.physicsBody?.isDynamic = false
