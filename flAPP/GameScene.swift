@@ -36,7 +36,7 @@ class GameScene: SKScene {
         let sky = SKTexture(imageNamed: "sky")
         for i in 0...1 {
             let skyBackground = SKSpriteNode(texture: sky)
-            skyBackground.zPosition = 0
+            skyBackground.zPosition = -1
             skyBackground.size.height = frame.height
             skyBackground.size.width = frame.height
             skyBackground.position = CGPoint(x: 0, y: skyBackground.size.height * CGFloat(i))
