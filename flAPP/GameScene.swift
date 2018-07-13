@@ -11,12 +11,11 @@ import GameplayKit
 
 class GameScene: SKScene {
     
-    private var label : SKLabelNode?
-    private var spinnyNode : SKShapeNode?
     var brick = SKSpriteNode()
     
     override func didMove(to view: SKView) {
         makeBrick()
+        createBackground()
     }
     func makeBrick() {
         brick = SKSpriteNode(color: UIColor.blue, size: CGSize(width: 50, height: 20))
@@ -31,8 +30,37 @@ class GameScene: SKScene {
         let sky = SKTexture(imageNamed: "sky")
         for i in 0...1 {
             let skyBackground = SKSpriteNode(texture: sky)
+            //skyBackground.frame = frame
+            skyBackground.zPosition = -1
+            skyBackground.position = CGPoint(x: 0, y: skyBackground.size.height * CGFloat(i))
+            addChild(skyBackground)
+            let moveLeft = SKAction.moveBy(x: -skyBackground.size.height, y: 0, duration: 20)
+            let moveReset = SKAction.moveBy(x: skyBackground.size.height, y: 0, duration: 0)
+            let moveLoop = SKAction.sequence([moveLeft, moveReset])
+            let moveForever = SKAction.repeatForever(moveLoop)
+            skyBackground.run(moveForever)
             
         }
     }
     
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
