@@ -13,18 +13,21 @@ class GameScene: SKScene {
     
     var brick = SKSpriteNode()
     var ball = SKShapeNode()
+ 
     
     
     override func didMove(to view: SKView) {
         makeBrick()
+        createBackground()
          makeBall()
         let moveBottomLeft = SKAction.move(to: CGPoint(x: frame.minX,y: frame.minY + 50), duration:2.0)
         brick.run(moveBottomLeft)
-        createBackground()
+        
     }
     
     func makeBrick() {
         brick = SKSpriteNode(color: UIColor.blue, size: CGSize(width: 100, height: 300))
+        brick.zPosition = 1
         brick.position = CGPoint(x: frame.midX, y: frame.minY + 50)
         brick.name = "brick"
         brick.physicsBody = SKPhysicsBody(rectangleOf: brick.size)
@@ -46,7 +49,7 @@ class GameScene: SKScene {
             skyBackground.run(moveForever)
             
         }
-        
+       
         
     }
     func makeBall() {
