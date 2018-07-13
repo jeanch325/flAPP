@@ -32,8 +32,8 @@ class GameScene: SKScene {
         for i in 0...1 {
             let skyBackground = SKSpriteNode(texture: sky)
             skyBackground.zPosition = 0
-            skyBackground.size.height = frame.maxY
-            skyBackground.size.width = frame.maxX
+            skyBackground.size.height = frame.height
+            skyBackground.size.width = frame.height
             skyBackground.position = CGPoint(x: 0, y: skyBackground.size.height * CGFloat(i))
             addChild(skyBackground)
             let moveLeft = SKAction.moveBy(x: -skyBackground.size.width, y: 0, duration: 20)
@@ -46,8 +46,6 @@ class GameScene: SKScene {
     }
     
 }
-
-
 
 
 
