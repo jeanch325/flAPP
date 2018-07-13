@@ -20,6 +20,7 @@ class GameScene: SKScene {
          makeBall()
         let moveBottomLeft = SKAction.move(to: CGPoint(x: frame.minX,y: frame.minY + 50), duration:2.0)
         brick.run(moveBottomLeft)
+        createBackground()
     }
     
     func makeBrick() {
