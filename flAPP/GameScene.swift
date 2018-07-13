@@ -27,4 +27,12 @@ class GameScene: SKScene {
         addChild(brick)
     }
     
+    func createBackground() {
+        let sky = SKTexture(imageNamed: "sky")
+        for i in 0...1 {
+            let skyBackground = SKSpriteNode(texture: sky)
+            
+        }
+    }
+    
 }
