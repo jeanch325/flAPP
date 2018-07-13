@@ -14,6 +14,8 @@ class GameScene: SKScene {
     private var label : SKLabelNode?
     private var spinnyNode : SKShapeNode?
     var brick = SKSpriteNode()
+    var ball = SKShapeNode()
+    
     
     override func didMove(to view: SKView) {
         makeBrick()
@@ -36,5 +38,8 @@ class GameScene: SKScene {
             
         }
     }
+    
+    
+    
     
 }
