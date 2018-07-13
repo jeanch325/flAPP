@@ -71,6 +71,14 @@ class GameScene: SKScene {
     
     
     
+//    let jumpUpAction = SKAction.moveByX(0, y:20 duration:0.2)
+//    let jumpSequence = SKAction.sequence([jumpUpAction])
+//    player.runAction(jumpSequence)
+    
+    
+    
+    
+    
     
     
 }
