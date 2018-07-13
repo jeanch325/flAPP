@@ -17,4 +17,12 @@ class GameScene: SKScene {
     override func didMove(to view: SKView) {
     }
     
+    func createBackground() {
+        let sky = SKTexture(imageNamed: "sky")
+        for i in 0...1 {
+            let skyBackground = SKSpriteNode(texture: sky)
+            
+        }
+    }
+    
 }
