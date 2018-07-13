@@ -13,18 +13,21 @@ class GameScene: SKScene {
     
     var brick = SKSpriteNode()
     var ball = SKShapeNode()
+ 
     
     
     override func didMove(to view: SKView) {
         makeBrick()
+        createBackground()
          makeBall()
         let moveBottomLeft = SKAction.move(to: CGPoint(x: frame.minX,y: frame.minY + 50), duration:2.0)
         brick.run(moveBottomLeft)
-        createBackground()
+        
     }
     
     func makeBrick() {
         brick = SKSpriteNode(color: UIColor.blue, size: CGSize(width: 100, height: 300))
+        brick.zPosition = 1
         brick.position = CGPoint(x: frame.midX, y: frame.minY + 50)
         brick.name = "brick"
         brick.physicsBody = SKPhysicsBody(rectangleOf: brick.size)
@@ -36,10 +39,10 @@ class GameScene: SKScene {
         let sky = SKTexture(imageNamed: "sky")
         for i in 0...1 {
             let skyBackground = SKSpriteNode(texture: sky)
-            skyBackground.zPosition = -1
+            skyBackground.zPosition = 0
             skyBackground.size.height = frame.height
             skyBackground.size.width = frame.height
-            skyBackground.position = CGPoint(x: 0, y: skyBackground.size.height * CGFloat(i))
+            skyBackground.position = CGPoint(x: skyBackground.size.width * CGFloat(i), y: 0)
             addChild(skyBackground)
             let moveLeft = SKAction.moveBy(x: -skyBackground.size.width, y: 0, duration: 20)
             let moveReset = SKAction.moveBy(x: skyBackground.size.width, y: 0, duration: 0)
@@ -48,7 +51,7 @@ class GameScene: SKScene {
             skyBackground.run(moveForever)
             
         }
-        
+       
         
     }
     func makeBall() {
