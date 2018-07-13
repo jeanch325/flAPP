@@ -20,7 +20,9 @@ class GameScene: SKScene {
          makeBall()
         let moveBottomLeft = SKAction.move(to: CGPoint(x: frame.minX,y: frame.minY + 50), duration:2.0)
         brick.run(moveBottomLeft)
+        createBackground()
     }
+    
     func makeBrick() {
         brick = SKSpriteNode(color: UIColor.blue, size: CGSize(width: 100, height: 300))
         brick.position = CGPoint(x: frame.midX, y: frame.minY + 50)
@@ -37,8 +39,8 @@ class GameScene: SKScene {
             skyBackground.zPosition = -1
             skyBackground.position = CGPoint(x: 0, y: skyBackground.size.height * CGFloat(i))
             addChild(skyBackground)
-            let moveLeft = SKAction.moveBy(x: -skyBackground.size.height, y: 0, duration: 20)
-            let moveReset = SKAction.moveBy(x: skyBackground.size.height, y: 0, duration: 0)
+            let moveLeft = SKAction.moveBy(x: -skyBackground.size.width, y: 0, duration: 20)
+            let moveReset = SKAction.moveBy(x: skyBackground.size.width, y: 0, duration: 0)
             let moveLoop = SKAction.sequence([moveLeft, moveReset])
             let moveForever = SKAction.repeatForever(moveLoop)
             skyBackground.run(moveForever)
@@ -72,8 +74,6 @@ class GameScene: SKScene {
     
     
 }
-
-
 
 
 
