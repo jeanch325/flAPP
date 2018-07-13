@@ -19,6 +19,7 @@ class GameScene: SKScene {
     
     override func didMove(to view: SKView) {
         makeBrick()
+         makeBall()
         let moveBottomLeft = SKAction.move(to: CGPoint(x: frame.minX,y: frame.minY + 50), duration:2.0)
         brick.run(moveBottomLeft)
     }
@@ -37,7 +38,28 @@ class GameScene: SKScene {
             let skyBackground = SKSpriteNode(texture: sky)
             
         }
+        
+        
     }
+    func makeBall() {
+        ball = SKShapeNode(circleOfRadius: 10)
+        ball.position = CGPoint(x: frame.midX - 100, y: frame.midY)
+        ball.strokeColor = .black
+        ball.fillColor = .red
+        ball.name = "ball"
+        
+        ball.physicsBody = SKPhysicsBody(circleOfRadius: 10)
+        ball.physicsBody?.isDynamic = false
+        ball.physicsBody?.usesPreciseCollisionDetection = true
+         ball.physicsBody?.friction = 0
+        ball.physicsBody?.affectedByGravity = true
+        ball.physicsBody?.restitution = 1
+         ball.physicsBody?.linearDamping = 0
+        ball.physicsBody?.contactTestBitMask = (ball.physicsBody?.collisionBitMask)!
+        
+    }
+    
+    
     
     
     
