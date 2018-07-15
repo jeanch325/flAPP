@@ -13,13 +13,14 @@ class GameScene: SKScene {
     
     var brick = SKSpriteNode()
     var ball = SKShapeNode()
- 
+    var startButton = SKLabelNode()
+    
     
     
     override func didMove(to view: SKView) {
         makeBrick()
         createBackground()
-         makeBall()
+        makeBall()
         let moveBottomLeft = SKAction.move(to: CGPoint(x: frame.minX,y: frame.minY + 50), duration:2.0)
         brick.run(moveBottomLeft)
         
@@ -51,7 +52,19 @@ class GameScene: SKScene {
             skyBackground.run(moveForever)
             
         }
-       
+        
+        func makeStartButton() {
+            startButton.position = CGPoint(x: frame.midX, y: frame.midY)
+            startButton.text = "Tap to Start"
+            startButton.color = .clear
+            startButton.fontColor = .white
+            startButton.fontSize = 40
+            startButton.name = "start button"
+            startButton.fontName = "Marker Felt"
+            
+            addChild(startButton)
+        }
+        
         
     }
     func makeBall() {
@@ -64,10 +77,10 @@ class GameScene: SKScene {
         ball.physicsBody = SKPhysicsBody(circleOfRadius: 10)
         ball.physicsBody?.isDynamic = false
         ball.physicsBody?.usesPreciseCollisionDetection = true
-         ball.physicsBody?.friction = 0
+        ball.physicsBody?.friction = 0
         ball.physicsBody?.affectedByGravity = true
         ball.physicsBody?.restitution = 1
-         ball.physicsBody?.linearDamping = 0
+        ball.physicsBody?.linearDamping = 0
         ball.physicsBody?.contactTestBitMask = (ball.physicsBody?.collisionBitMask)!
         
     }
