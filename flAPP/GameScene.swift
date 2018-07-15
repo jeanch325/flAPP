@@ -52,7 +52,6 @@ class GameScene: SKScene {
             skyBackground.run(moveForever)
             
         }
-        
         func makeStartButton() {
             startButton.position = CGPoint(x: frame.midX, y: frame.midY)
             startButton.text = "Tap to Start"
@@ -69,6 +68,7 @@ class GameScene: SKScene {
     }
     func makeBall() {
         ball = SKShapeNode(circleOfRadius: 10)
+        ball.zPosition = 1
         ball.position = CGPoint(x: frame.midX - 100, y: frame.midY)
         ball.strokeColor = .black
         ball.fillColor = .red
@@ -82,6 +82,8 @@ class GameScene: SKScene {
         ball.physicsBody?.restitution = 1
         ball.physicsBody?.linearDamping = 0
         ball.physicsBody?.contactTestBitMask = (ball.physicsBody?.collisionBitMask)!
+        
+        addChild(ball)
         
     }
     
