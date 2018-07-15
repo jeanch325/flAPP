@@ -11,6 +11,7 @@ import GameplayKit
 
 class GameScene: SKScene {
     
+    
     var brick = SKSpriteNode()
     var ball = SKShapeNode()
     var startButton = SKLabelNode()
@@ -74,13 +75,15 @@ class GameScene: SKScene {
         ball.fillColor = .red
         ball.name = "ball"
         
-        ball.physicsBody = SKPhysicsBody(circleOfRadius: 10)
-        ball.physicsBody?.isDynamic = false
+        ball.physicsBody = SKPhysicsBody(circleOfRadius: 5.5)
+        
+        ball.physicsBody?.allowsRotation = false
         ball.physicsBody?.usesPreciseCollisionDetection = true
         ball.physicsBody?.friction = 0
-        ball.physicsBody?.affectedByGravity = true
-        ball.physicsBody?.restitution = 1
-        ball.physicsBody?.linearDamping = 0
+        ball.physicsBody?.affectedByGravity = false //found online
+        ball.physicsBody?.isDynamic = true
+        ball.physicsBody?.restitution = 0
+        ball.physicsBody?.linearDamping = 1
         ball.physicsBody?.contactTestBitMask = (ball.physicsBody?.collisionBitMask)!
         
         addChild(ball)
@@ -88,10 +91,34 @@ class GameScene: SKScene {
     }
     
     
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        //when you first touch the stuff
+        for touch in touches {
+            let location = touch.location(in: self)
+        }
+           
+        //start button
+        for startButtonTouch in touches {
+            startButton.isHidden = true
+            if startButton.isHidden == true {
+                ball.physicsBody?.affectedByGravity = true
+                ball.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 5)) //dx = x magnitude, dy = y magnitude
+            }
+            
+        }
+        
+    }
     
     
-    
-    
+    //want to make app stop if ball is gone
+//    func restart () {
+//        if ball.position.y >= frame.minY {
+//            ball.removeFromParent()
+//            makeBall()
+//        }
+//    }
+
+
 }
 
 
