@@ -23,15 +23,31 @@ class GameScene: SKScene {
     
     override func didMove(to view: SKView) {
         createBackground()
-         makeBall()
-      
-        
+        makeBall()
+        makeBottomBricks()
+        makeTopBrick()
         
         let moveBottomLeft = SKAction.move(to: CGPoint(x: frame.minX,y: frame.minY + 50), duration:2.0)
         //l;brick.run(moveBottomLeft)
         
         
         
+    }
+    
+    func makeBottomBrick() {
+        let displayWidth = self.displaySize.width
+        let displayHeight = self.displaySize.height
+        var heights = CGFloat(height*Int(displayWidth)/100)
+        bottomBrick = SKSpriteNode(color: UIColor.blue, size: CGSize(width: 100, height: heights))
+        print(heights)
+        bottomBrick.zPosition = 1
+        center = height/2
+        bottomBrick.position = CGPoint(x: frame.maxX + 50, y: frame.minY + CGFloat(center))
+        bottomBrick.name = "bottomBrick"
+        bottomBrick.physicsBody = SKPhysicsBody(rectangleOf: bottomBrick.size)
+        bottomBrick.physicsBody?.isDynamic = false
+        bottomBrick.zPosition = 4
+        addChild(bottomBrick)
     }
     
     func makeTopBrick() {
@@ -44,23 +60,59 @@ class GameScene: SKScene {
         addChild(topBrick)
     }
     
-    func createBackground() {
-        let sky = SKTexture(imageNamed: "sky")
-        for i in 0...1 {
-            let skyBackground = SKSpriteNode(texture: sky)
-            skyBackground.zPosition = -1
-            skyBackground.position = CGPoint(x: 0, y: skyBackground.size.height * CGFloat(i))
-            addChild(skyBackground)
-            let moveLeft = SKAction.moveBy(x: -skyBackground.size.width, y: 0, duration: 20)
-            let moveReset = SKAction.moveBy(x: skyBackground.size.width, y: 0, duration: 0)
-            let moveLoop = SKAction.sequence([moveLeft, moveReset])
-            let moveForever = SKAction.repeatForever(moveLoop)
-            skyBackground.run(moveForever)
+    func makeBottomBricks(){
+        for i in 1...10{
+            let displayWidth = self.displaySize.width
+            let displayHeight = self.displaySize.height
+            var heights = CGFloat(height*Int(displayWidth)/100)
+            height = heightsArray[i % 5]
+            center = Int(heights)/2
+            print("height: \(height), center:\(center)")
+            makeBottomBrick()
+            let moveBottomLeft = SKAction.move(to: CGPoint(x: frame.minX - 50,y: frame.minY + CGFloat(center)), duration:4.0)
+            let wait1 = SKAction.wait(forDuration: 4.0*Double(i)) //change countdown speed here
+            let sequence = SKAction.sequence([wait1, moveBottomLeft])
+            bottomBrick.run(sequence)
+        }
+    }
+        
+        func createBackground() {
+            let sky = SKTexture(imageNamed: "sky")
+            for i in 0...1 {
+                let skyBackground = SKSpriteNode(texture: sky)
+                skyBackground.zPosition = 0
+                skyBackground.size.height = frame.height
+                skyBackground.size.width = frame.height
+                skyBackground.position = CGPoint(x: skyBackground.size.width * CGFloat(i), y: 0)
+                addChild(skyBackground)
+                let moveLeft = SKAction.moveBy(x: -skyBackground.size.width, y: 0, duration: 20)
+                let moveReset = SKAction.moveBy(x: skyBackground.size.width, y: 0, duration: 0)
+                let moveLoop = SKAction.sequence([moveLeft, moveReset])
+                let moveForever = SKAction.repeatForever(moveLoop)
+                skyBackground.run(moveForever)
+                
+            }
+            
             
         }
-        
     
-    }
+//    func createBackground() {
+//        let sky = SKTexture(imageNamed: "sky")
+//        for i in 0...1 {
+//            let skyBackground = SKSpriteNode(texture: sky)
+//            skyBackground.zPosition = -1
+//            skyBackground.position = CGPoint(x: 0, y: skyBackground.size.height * CGFloat(i))
+//            addChild(skyBackground)
+//            let moveLeft = SKAction.moveBy(x: -skyBackground.size.width, y: 0, duration: 20)
+//            let moveReset = SKAction.moveBy(x: skyBackground.size.width, y: 0, duration: 0)
+//            let moveLoop = SKAction.sequence([moveLeft, moveReset])
+//            let moveForever = SKAction.repeatForever(moveLoop)
+//            skyBackground.run(moveForever)
+//
+//        }
+//        }
+    
+    
     func makeBall() {
         ball = SKShapeNode(circleOfRadius: 10)
         ball.zPosition = 1
@@ -98,7 +150,6 @@ class GameScene: SKScene {
 
 
 //this is jean's change
-
 
 
 
