@@ -28,7 +28,7 @@ class GameScene: SKScene {
         
         
         let moveBottomLeft = SKAction.move(to: CGPoint(x: frame.minX,y: frame.minY + 50), duration:2.0)
-        brick.run(moveBottomLeft)
+        //l;brick.run(moveBottomLeft)
         
         
         
@@ -79,7 +79,6 @@ class GameScene: SKScene {
         ball.physicsBody?.restitution = 0
         ball.physicsBody?.linearDamping = 1
         ball.physicsBody?.contactTestBitMask = (ball.physicsBody?.collisionBitMask)!
-        addChild(ball)
 //        self.physicsWorld.gravity = CGVector(dx: 0.0 , dy: -9.8)
 //        physicsWorld.gravity = .zero
 //        
@@ -96,7 +95,7 @@ class GameScene: SKScene {
 
 
 
-
+//this is jean's change
 
 
 
