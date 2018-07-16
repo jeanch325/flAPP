@@ -22,6 +22,8 @@ class GameScene: SKScene {
         makeBrick()
         createBackground()
         makeBall()
+        createStartButton()
+        
         let moveBottomLeft = SKAction.move(to: CGPoint(x: frame.minX,y: frame.minY + 50), duration:2.0)
         brick.run(moveBottomLeft)
         
@@ -53,19 +55,8 @@ class GameScene: SKScene {
             skyBackground.run(moveForever)
             
         }
-        func makeStartButton() {
-            startButton.position = CGPoint(x: frame.midX, y: frame.midY)
-            startButton.text = "Tap to Start"
-            startButton.color = .clear
-            startButton.fontColor = .white
-            startButton.fontSize = 40
-            startButton.name = "start button"
-            startButton.fontName = "Marker Felt"
-            
-            addChild(startButton)
-        }
         
-        
+    
     }
     func makeBall() {
         ball = SKShapeNode(circleOfRadius: 10)
@@ -80,7 +71,7 @@ class GameScene: SKScene {
         ball.physicsBody?.allowsRotation = false
         ball.physicsBody?.usesPreciseCollisionDetection = true
         ball.physicsBody?.friction = 0
-        ball.physicsBody?.affectedByGravity = false //found online
+        ball.physicsBody?.affectedByGravity = false
         ball.physicsBody?.isDynamic = true
         ball.physicsBody?.restitution = 0
         ball.physicsBody?.linearDamping = 1
@@ -90,13 +81,25 @@ class GameScene: SKScene {
         
     }
     
+    func createStartButton() {
+        startButton.position = CGPoint(x: frame.midX, y: frame.midY)
+        startButton.text = "Tap to Begin"
+        startButton.color = .clear
+        startButton.fontColor = .black
+        startButton.fontName = "Marker Felt"
+        startButton.name = "start button"
+        startButton.zPosition = 2
+        
+        addChild(startButton)
+    }
+    
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         //when you first touch the stuff
         for touch in touches {
             let location = touch.location(in: self)
         }
-           
+        
         //start button
         for startButtonTouch in touches {
             startButton.isHidden = true
@@ -111,14 +114,14 @@ class GameScene: SKScene {
     
     
     //want to make app stop if ball is gone
-//    func restart () {
-//        if ball.position.y >= frame.minY {
-//            ball.removeFromParent()
-//            makeBall()
-//        }
-//    }
-
-
+    //    func restart () {
+    //        if ball.position.y >= frame.minY {
+    //            ball.removeFromParent()
+    //            makeBall()
+    //        }
+    //    }
+    
+    
 }
 
 
