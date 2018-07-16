@@ -36,6 +36,22 @@ class GameScene: SKScene {
         
     }
     
+    func makeBottomBrick() {
+        let displayWidth = self.displaySize.width
+        let displayHeight = self.displaySize.height
+        var heights = CGFloat(height*Int(displayWidth)/100)
+        bottomBrick = SKSpriteNode(color: UIColor.blue, size: CGSize(width: 100, height: heights))
+        print(heights)
+        bottomBrick.zPosition = 1
+        center = height/2
+        bottomBrick.position = CGPoint(x: frame.maxX + 50, y: frame.minY + CGFloat(center))
+        bottomBrick.name = "bottomBrick"
+        bottomBrick.physicsBody = SKPhysicsBody(rectangleOf: bottomBrick.size)
+        bottomBrick.physicsBody?.isDynamic = false
+        bottomBrick.zPosition = 4
+        addChild(bottomBrick)
+    }
+    
     func makeTopBrick() {
         topBrick = SKSpriteNode(color: .blue, size: CGSize(width: 50, height: 20))
         topBrick.zPosition = 1
@@ -62,10 +78,10 @@ class GameScene: SKScene {
             skyBackground.run(moveForever)
             
         }
+    }
         
         
     
-    }
     func makeBall() {
         ball = SKShapeNode(circleOfRadius: 10)
         ball.zPosition = 1
@@ -134,7 +150,6 @@ class GameScene: SKScene {
 
 
 //this is jean's change
-
 
 
 
