@@ -26,6 +26,8 @@ class GameScene: SKScene {
         createBackground()
          makeBall()
         createStartButton()
+        makeTopBrick()
+        makeBottomBrick()
       
         
         
@@ -132,6 +134,8 @@ class GameScene: SKScene {
                 for startButtonTouch in touches {
                     startButton.isHidden = true
                         if startButton.isHidden == true {
+                            ball.physicsBody?.affectedByGravity = true
+                                ball.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 5)) //dx = x magnitude, dy = y magnitude
                     }
             
                 }
