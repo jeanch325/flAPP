@@ -20,8 +20,13 @@ class GameScene: SKScene {
         makeBrick()
         createBackground()
          makeBall()
+      
+        
+        
         let moveBottomLeft = SKAction.move(to: CGPoint(x: frame.minX,y: frame.minY + 50), duration:2.0)
         brick.run(moveBottomLeft)
+        
+        
         
     }
     
@@ -68,39 +73,13 @@ class GameScene: SKScene {
          ball.physicsBody?.linearDamping = 0
         ball.physicsBody?.contactTestBitMask = (ball.physicsBody?.collisionBitMask)!
         addChild(ball)
-        self.physicsWorld.gravity = CGVector(dx: 0.0 , dy: -9.8)
-        physicsWorld.gravity = .zero
-        
+//        self.physicsWorld.gravity = CGVector(dx: 0.0 , dy: -9.8)
+//        physicsWorld.gravity = .zero
+//        
         
     }
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        for touch in touches {
-            let location = touch.location(in: self)
-            
-        }
-        
-        let jumpUpAction = SKAction.moveBy(x: 0, y:50, duration:0.2)
-        let jumpDownAction = SKAction.moveBy(x: 0, y:-20, duration:0.2)
-        let jumpSequence = SKAction.sequence([jumpUpAction, jumpDownAction])
-        ball.run(jumpSequence)
-
-    }
     
-    
-    
-    
-    
-    
-    
-   
-    
-    
-    
-    
-    
-    
-    
-}
+   }
 
 
 
