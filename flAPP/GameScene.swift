@@ -33,18 +33,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
         physicsWorld.contactDelegate = self
         self.physicsBody = SKPhysicsBody(edgeLoopFrom: frame)
         
-        createBackground()
+        //createBackground()
         makeBall()
         createStartButton()
         moveBricks()
         makePoints()
-       
+        
     }
     
     func makeBottomBrick() {
         let displayHeight = self.displaySize.height
         var heightsBottom = CGFloat(height*Int(displayHeight)/100)
-        bottomBrick = SKSpriteNode(color: UIColor.red, size: CGSize(width: 100, height: heightsBottom))
+        bottomBrick = SKSpriteNode(color: .blue, size: CGSize(width: 100, height: heightsBottom))
         //bottomBrick.zPosition = 1
         centerBottom = Int(heightsBottom)/2
         bottomBrick.position = CGPoint(x: frame.maxX + 50, y: frame.minY + CGFloat(centerBottom))
@@ -56,7 +56,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
     }
     
     func makeTopBrick() {
-        let displayWidth = self.displaySize.width
+        //let displayWidth = self.displaySize.width
         let displayHeight = self.displaySize.height
         var heightsTop = CGFloat((70 - height)*Int(displayHeight)/100)
         topBrick = SKSpriteNode(color: .blue, size: CGSize(width: 100, height: heightsTop))
@@ -64,14 +64,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
         centerTop = Int(heightsTop)/2
         topBrick.position = CGPoint(x: frame.maxX + 50, y: frame.maxY - CGFloat(centerTop))
         topBrick.name = "topBrick"
-        topBrick.physicsBody = SKPhysicsBody(rectangleOf: bottomBrick.size)
+        topBrick.physicsBody = SKPhysicsBody(rectangleOf: topBrick.size)
         topBrick.physicsBody?.isDynamic = false
         //topBrick.zPosition = 4
         addChild(topBrick)
     }
     
     func moveBricks(){
-        for i in 1...10{
+        for i in 1...100{
             let pick = arc4random_uniform(41)+30
             let displayWidth = self.displaySize.width
             let displayHeight = self.displaySize.height
@@ -83,19 +83,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
             makeBottomBrick()
             makeTopBrick()
             let moveBottomLeft = SKAction.move(to: CGPoint(x: frame.minX - 50,y: frame.minY + CGFloat(centerBottom)), duration:4.0)
-            let wait1 = SKAction.wait(forDuration: 4.0*Double(i)) //change countdown speed here
+            let wait1 = SKAction.wait(forDuration: 3.0*Double(i)) //change countdown speed here
             let sequence = SKAction.sequence([wait1, moveBottomLeft])
             bottomBrick.run(sequence)
             let moveTopLeft = SKAction.move(to: CGPoint(x: frame.minX - 50,y: frame.maxY - CGFloat(centerTop)), duration:4.0)
-            let wait2 = SKAction.wait(forDuration: 4.0*Double(i)) //change countdown speed here
+            let wait2 = SKAction.wait(forDuration: 3.0*Double(i)) //change countdown speed here
             let otherSequence = SKAction.sequence([wait1, moveTopLeft])
             topBrick.run(otherSequence)
         }
-    }
-
-
-    
-    func createBackground() {
+        
         let sky = SKTexture(imageNamed: "sky")
         for i in 0...1 {
             let skyBackground = SKSpriteNode(texture: sky)
@@ -109,10 +105,31 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
             let moveLoop = SKAction.sequence([moveLeft, moveReset])
             let moveForever = SKAction.repeatForever(moveLoop)
             skyBackground.run(moveForever)
-
+            
         }
-    }
 
+    }
+    
+    
+//
+//    func createBackground() {
+//        let sky = SKTexture(imageNamed: "sky")
+//        for i in 0...1 {
+//            let skyBackground = SKSpriteNode(texture: sky)
+//            skyBackground.zPosition = -5
+//            skyBackground.size.height = frame.height
+//            skyBackground.size.width = frame.width * 2
+//            skyBackground.position = CGPoint(x: skyBackground.size.width * CGFloat(i), y: 0)
+//            addChild(skyBackground)
+//            let moveLeft = SKAction.moveBy(x: -skyBackground.size.width, y: 0, duration: 20)
+//            let moveReset = SKAction.moveBy(x: skyBackground.size.width, y: 0, duration: 0)
+//            let moveLoop = SKAction.sequence([moveLeft, moveReset])
+//            let moveForever = SKAction.repeatForever(moveLoop)
+//            skyBackground.run(moveForever)
+//
+//        }
+//    }
+    
     
     
     func makeBall() {
@@ -122,26 +139,25 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
         ball.strokeColor = .black
         ball.fillColor = .red
         ball.name = "ball"
-        
         ball.physicsBody = SKPhysicsBody(circleOfRadius: 5.6)
-        
         ball.physicsBody?.allowsRotation = false
-        ball.physicsBody?.usesPreciseCollisionDetection = true
+        ball.physicsBody?.usesPreciseCollisionDetection = true //was false
+//        ball.physicsBody?.categoryBitMask = 0
+//        ball.physicsBody?.collisionBitMask = 0
         ball.physicsBody?.friction = 0
         ball.physicsBody?.affectedByGravity = false
         ball.physicsBody?.isDynamic = true
-        ball.physicsBody?.restitution = 0
-        ball.physicsBody?.linearDamping = 1
+        //was not here:
+                    ball.physicsBody?.restitution = 0
+                    ball.physicsBody?.linearDamping = 1
         ball.physicsBody?.contactTestBitMask = (ball.physicsBody?.collisionBitMask)!
         let range = SKRange(lowerLimit: frame.minY, upperLimit: frame.maxY)
         let lockToCenter = SKConstraint.positionX(range, y: range)
         ball.constraints = [lockToCenter]
-//        self.physicsWorld.gravity = CGVector(dx: 0.0 , dy: -9.8)
-//        physicsWorld.gravity = .zero
-//        
         
-        // I hate github - Zoe
+        
         addChild(ball)
+        
         
     }
     
@@ -166,32 +182,30 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
         addChild(pointsLabel)
         pointsLabel.color = .white
     }
-
+    
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-                //when you first touch the stuff
-                for touch in touches {
-                        let location = touch.location(in: self)
-                    }
+        //when you first touch the stuff
+        for touch in touches {
+            let location = touch.location(in: self)
+        }
         
-                //start button
-                for startButtonTouch in touches {
-                    startButton.isHidden = true
-                        if startButton.isHidden == true {
-                            ball.physicsBody?.affectedByGravity = true
-                                ball.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 5)) //dx = x magnitude, dy = y magnitude
-                    }
-            
-                }
-        
+        //start button
+        for startButtonTouch in touches {
+            startButton.isHidden = true
+            if startButton.isHidden == true {
+                ball.physicsBody?.affectedByGravity = true
+                ball.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 4)) //dx = x magnitude, dy = y magnitude
             }
+            
+        }
+        
+    }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         for touch in touches {
             let location = touch.location(in: self)
-            ball.position.x = location.x //only x so the paddle can't move veritcally
-//            topBrick.position.x = location.x
-//            bottomBrick.position.x = location.x
+            
         }
         for startButtonTouch in touches {
             startButton.isHidden = true
@@ -204,34 +218,37 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
     func didBegin(_ contact: SKPhysicsContact) {
         print("a: \(contact.bodyA.node?.name)")
         print("b: \(contact.bodyB.node?.name)")
-
-        if contact.bodyA.node?.name == "bottomBrick" || contact.bodyB.node?.name == "bottomBrick" || contact.bodyA.node?.name == "topBrick" || contact.bodyB.node?.name == "topBrick" {
+        print("brick position : \(topBrick.position)")
+        print("ball position: \(ball.position)")
+        
+        if contact.bodyA.node?.name == "bottomBrick" /*|| contact.bodyB.node?.name == "bottomBrick"*/ || contact.bodyA.node?.name == "topBrick" /*|| contact.bodyB.node?.name == "topBrick" */{
             pointsLabel.text = "You lose"
             print("You lose!")
             ball.removeFromParent() //removes ball from game
             DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-               // self.restart()
+                // self.restart()
             }
-
+            
         }
         else {
             number += 1
         }
     }
     
+  
     
     
-   }
+}
 
 // just to check if it works
 
 
 
 
-    
-    
-    
-    
+
+
+
+
 
 
 
