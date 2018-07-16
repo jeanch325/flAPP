@@ -28,7 +28,7 @@ class GameScene: SKScene {
         
         
         let moveBottomLeft = SKAction.move(to: CGPoint(x: frame.minX,y: frame.minY + 50), duration:2.0)
-        brick.run(moveBottomLeft)
+        //l;brick.run(moveBottomLeft)
         
         
         
@@ -96,7 +96,7 @@ class GameScene: SKScene {
 
 
 
-
+//this is jean's change
 
 
 
