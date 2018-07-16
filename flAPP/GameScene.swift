@@ -8,6 +8,8 @@
 
 import SpriteKit
 import GameplayKit
+import AVFoundation
+
 
 class GameScene: SKScene {
     
@@ -21,20 +23,26 @@ class GameScene: SKScene {
     let displaySize: CGRect = UIScreen.main.bounds
      var pointsLabel = SKLabelNode()
     var number = 0
+    var audioPlayer = AVAudioPlayer()
+    
+  
     
     
     override func didMove(to view: SKView) {
         createBackground()
          makeBall()
         makePoints()
+        let sound = NSURL(fileURLWithPath: Bundle.main.path(forResource:"background", ofType: "mp3")!)
+        try? audioPlayer = AVAudioPlayer(contentsOf: sound as URL)
+        audioPlayer.prepareToPlay()
+         audioPlayer.numberOfLoops = -1
+        audioPlayer.play()
         
-      
+     
         
-        
-        let moveBottomLeft = SKAction.move(to: CGPoint(x: frame.minX,y: frame.minY + 50), duration:2.0)
-        //l;brick.run(moveBottomLeft)
-        
-        
+       
+//        let sound = SKAction.playSoundFileNamed("background.m4a", waitForCompletion: false)
+//        run(sound)
         
     }
     
@@ -143,13 +151,17 @@ class GameScene: SKScene {
     pointsLabel.text = "Points: \(number)"
         pointsLabel.fontSize = 30
         pointsLabel.position = CGPoint(x: -150, y: -350)
-        pointsLabel.fontColor = .white
+        pointsLabel.fontColor = .black
         addChild(pointsLabel)
     }
+  
+}
+
     
     
     
-   }
+    
+
 
 
 
