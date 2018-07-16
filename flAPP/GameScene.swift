@@ -19,11 +19,13 @@ class GameScene: SKScene {
     var height = 300
     var center = 50
     let displaySize: CGRect = UIScreen.main.bounds
+    var startButton = SKLabelNode()
     
     
     override func didMove(to view: SKView) {
         createBackground()
          makeBall()
+        createStartButton()
       
         
         
@@ -48,8 +50,10 @@ class GameScene: SKScene {
         let sky = SKTexture(imageNamed: "sky")
         for i in 0...1 {
             let skyBackground = SKSpriteNode(texture: sky)
-            skyBackground.zPosition = -1
-            skyBackground.position = CGPoint(x: 0, y: skyBackground.size.height * CGFloat(i))
+            skyBackground.zPosition = 0
+            skyBackground.size.height = frame.height
+            skyBackground.size.width = frame.width
+            skyBackground.position = CGPoint(x: skyBackground.size.width * CGFloat(i), y: 0)
             addChild(skyBackground)
             let moveLeft = SKAction.moveBy(x: -skyBackground.size.width, y: 0, duration: 20)
             let moveReset = SKAction.moveBy(x: skyBackground.size.width, y: 0, duration: 0)
@@ -58,6 +62,7 @@ class GameScene: SKScene {
             skyBackground.run(moveForever)
             
         }
+        
         
     
     }
@@ -87,6 +92,37 @@ class GameScene: SKScene {
         addChild(ball)
         
     }
+    
+    func createStartButton() {
+        startButton.position = CGPoint(x: frame.midX, y: frame.midY)
+        startButton.text = "Tap to Start"
+        startButton.color = .clear
+        startButton.fontColor = .black
+        startButton.fontName = "Marker Felt"
+        startButton.fontSize = 40
+        startButton.name = "start button"
+        startButton.zPosition = 2
+        
+        addChild(startButton)
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+                //when you first touch the stuff
+                for touch in touches {
+                        let location = touch.location(in: self)
+                    }
+        
+                //start button
+                for startButtonTouch in touches {
+                    startButton.isHidden = true
+                        if startButton.isHidden == true {
+                    }
+            
+                }
+        
+            }
+    
+    
     
    }
 
