@@ -11,13 +11,17 @@ import GameplayKit
 
 class GameScene: SKScene {
     
-    var brick = SKSpriteNode()
+    var bottomBrick = SKSpriteNode()
+    var topBrick = SKSpriteNode()
     var ball = SKShapeNode()
- 
+    let wait = SKAction.wait(forDuration: 4.0) //change countdown speed here
+    var heightsArray = [30, 40, 50, 60, 70]
+    var height = 300
+    var center = 50
+    let displaySize: CGRect = UIScreen.main.bounds
     
     
     override func didMove(to view: SKView) {
-        makeBrick()
         createBackground()
          makeBall()
       
@@ -30,14 +34,14 @@ class GameScene: SKScene {
         
     }
     
-    func makeBrick() {
-        brick = SKSpriteNode(color: UIColor.blue, size: CGSize(width: 100, height: 300))
-        brick.zPosition = 1
-        brick.position = CGPoint(x: frame.midX, y: frame.minY + 50)
-        brick.name = "brick"
-        brick.physicsBody = SKPhysicsBody(rectangleOf: brick.size)
-        brick.physicsBody?.isDynamic = false
-        addChild(brick)
+    func makeTopBrick() {
+        topBrick = SKSpriteNode(color: .blue, size: CGSize(width: 50, height: 20))
+        topBrick.zPosition = 1
+        topBrick.position = CGPoint(x: frame.midX, y: frame.maxY - 30)
+        topBrick.name = "topBrick"
+        topBrick.physicsBody = SKPhysicsBody(rectangleOf: bottomBrick.size)
+        topBrick.physicsBody?.isDynamic = false
+        addChild(topBrick)
     }
     
     func createBackground() {
@@ -54,28 +58,33 @@ class GameScene: SKScene {
             skyBackground.run(moveForever)
             
         }
-       
         
+    
     }
     func makeBall() {
         ball = SKShapeNode(circleOfRadius: 10)
+        ball.zPosition = 1
         ball.position = CGPoint(x: frame.midX - 100, y: frame.midY)
         ball.strokeColor = .black
         ball.fillColor = .red
         ball.name = "ball"
         
-        ball.physicsBody = SKPhysicsBody(circleOfRadius: 10)
-        ball.physicsBody?.isDynamic = false
+        ball.physicsBody = SKPhysicsBody(circleOfRadius: 5.5)
+        
+        ball.physicsBody?.allowsRotation = false
         ball.physicsBody?.usesPreciseCollisionDetection = true
-         ball.physicsBody?.friction = 0
-        ball.physicsBody?.affectedByGravity = true
-        ball.physicsBody?.restitution = 1
-         ball.physicsBody?.linearDamping = 0
+        ball.physicsBody?.friction = 0
+        ball.physicsBody?.affectedByGravity = false
+        ball.physicsBody?.isDynamic = true
+        ball.physicsBody?.restitution = 0
+        ball.physicsBody?.linearDamping = 1
         ball.physicsBody?.contactTestBitMask = (ball.physicsBody?.collisionBitMask)!
         addChild(ball)
 //        self.physicsWorld.gravity = CGVector(dx: 0.0 , dy: -9.8)
 //        physicsWorld.gravity = .zero
 //        
+        
+        addChild(ball)
         
     }
     
