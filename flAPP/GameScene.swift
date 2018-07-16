@@ -70,24 +70,29 @@ class GameScene: SKScene {
             skyBackground.run(moveForever)
             
         }
-       
         
+    
     }
     func makeBall() {
         ball = SKShapeNode(circleOfRadius: 10)
+        ball.zPosition = 1
         ball.position = CGPoint(x: frame.midX - 100, y: frame.midY)
         ball.strokeColor = .black
         ball.fillColor = .red
         ball.name = "ball"
         
-        ball.physicsBody = SKPhysicsBody(circleOfRadius: 10)
-        ball.physicsBody?.isDynamic = false
+        ball.physicsBody = SKPhysicsBody(circleOfRadius: 5.5)
+        
+        ball.physicsBody?.allowsRotation = false
         ball.physicsBody?.usesPreciseCollisionDetection = true
-         ball.physicsBody?.friction = 0
-        ball.physicsBody?.affectedByGravity = true
-        ball.physicsBody?.restitution = 1
-         ball.physicsBody?.linearDamping = 0
+        ball.physicsBody?.friction = 0
+        ball.physicsBody?.affectedByGravity = false
+        ball.physicsBody?.isDynamic = true
+        ball.physicsBody?.restitution = 0
+        ball.physicsBody?.linearDamping = 1
         ball.physicsBody?.contactTestBitMask = (ball.physicsBody?.collisionBitMask)!
+        
+        addChild(ball)
         
     }
     
