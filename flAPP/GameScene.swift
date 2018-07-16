@@ -79,7 +79,6 @@ class GameScene: SKScene {
         ball.physicsBody?.restitution = 0
         ball.physicsBody?.linearDamping = 1
         ball.physicsBody?.contactTestBitMask = (ball.physicsBody?.collisionBitMask)!
-        addChild(ball)
 //        self.physicsWorld.gravity = CGVector(dx: 0.0 , dy: -9.8)
 //        physicsWorld.gravity = .zero
 //        
@@ -90,6 +89,7 @@ class GameScene: SKScene {
     
    }
 
+// just to check if it works
 
 
 
