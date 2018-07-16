@@ -154,8 +154,22 @@ class GameScene: SKScene {
         pointsLabel.fontColor = .black
         addChild(pointsLabel)
     }
+    
+    
+    
+        
+    
+    
+
   
 }
+
+
+
+
+
+
+
 
     
     
