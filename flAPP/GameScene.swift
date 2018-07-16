@@ -19,11 +19,15 @@ class GameScene: SKScene {
     var height = 300
     var center = 50
     let displaySize: CGRect = UIScreen.main.bounds
+     var pointsLabel = SKLabelNode()
+    var number = 0
     
     
     override func didMove(to view: SKView) {
         createBackground()
          makeBall()
+        makePoints()
+        
       
         
         
@@ -79,25 +83,22 @@ class GameScene: SKScene {
         ball.physicsBody?.restitution = 0
         ball.physicsBody?.linearDamping = 1
         ball.physicsBody?.contactTestBitMask = (ball.physicsBody?.collisionBitMask)!
-//        self.physicsWorld.gravity = CGVector(dx: 0.0 , dy: -9.8)
-//        physicsWorld.gravity = .zero
-//        
-        
-        // I hate github - Zoe
+
         addChild(ball)
         
     }
+    func makePoints() {
+    pointsLabel.text = "Points: \(number)"
+        pointsLabel.fontSize = 30
+        pointsLabel.position = CGPoint(x: -150, y: -350)
+        pointsLabel.fontColor = .white
+        addChild(pointsLabel)
+    }
+    
+    
     
    }
 
-// just to check if it works
-
-
-
-
-
-
-//this is jean's change
 
 
 
