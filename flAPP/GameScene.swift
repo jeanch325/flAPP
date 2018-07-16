@@ -25,12 +25,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
     var startButton = SKLabelNode()
     
     
+    
     override func didMove(to view: SKView) {
         
         physicsWorld.contactDelegate = self
         self.physicsBody = SKPhysicsBody(edgeLoopFrom: frame)
         
-        //createBackground()
+        createBackground()
         makeBall()
         createStartButton()
         moveBricks()
@@ -92,24 +93,24 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
 
 
     
-//    func createBackground() {
-//        let sky = SKTexture(imageNamed: "sky")
-//        for i in 0...1 {
-//            let skyBackground = SKSpriteNode(texture: sky)
-//            skyBackground.zPosition = 0
-//            skyBackground.size.height = frame.height
-//            skyBackground.size.width = frame.width
-//            skyBackground.position = CGPoint(x: skyBackground.size.width * CGFloat(i), y: 0)
-//            addChild(skyBackground)
-//            let moveLeft = SKAction.moveBy(x: -skyBackground.size.width, y: 0, duration: 20)
-//            let moveReset = SKAction.moveBy(x: skyBackground.size.width, y: 0, duration: 0)
-//            let moveLoop = SKAction.sequence([moveLeft, moveReset])
-//            let moveForever = SKAction.repeatForever(moveLoop)
-//            skyBackground.run(moveForever)
-//
-//        }
-//    }
-//
+    func createBackground() {
+        let sky = SKTexture(imageNamed: "sky")
+        for i in 0...1 {
+            let skyBackground = SKSpriteNode(texture: sky)
+            skyBackground.zPosition = -5
+            skyBackground.size.height = frame.height
+            skyBackground.size.width = frame.width * 2
+            skyBackground.position = CGPoint(x: skyBackground.size.width * CGFloat(i), y: 0)
+            addChild(skyBackground)
+            let moveLeft = SKAction.moveBy(x: -skyBackground.size.width, y: 0, duration: 20)
+            let moveReset = SKAction.moveBy(x: skyBackground.size.width, y: 0, duration: 0)
+            let moveLoop = SKAction.sequence([moveLeft, moveReset])
+            let moveForever = SKAction.repeatForever(moveLoop)
+            skyBackground.run(moveForever)
+
+        }
+    }
+
     
     
     func makeBall() {
@@ -130,6 +131,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
         ball.physicsBody?.restitution = 0
         ball.physicsBody?.linearDamping = 1
         ball.physicsBody?.contactTestBitMask = (ball.physicsBody?.collisionBitMask)!
+        let range = SKRange(lowerLimit: frame.minY, upperLimit: frame.maxY)
+        let lockToCenter = SKConstraint.positionX(range, y: range)
+        ball.constraints = [lockToCenter]
 //        self.physicsWorld.gravity = CGVector(dx: 0.0 , dy: -9.8)
 //        physicsWorld.gravity = .zero
 //        
@@ -184,8 +188,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
         for touch in touches {
             let location = touch.location(in: self)
             ball.position.x = location.x //only x so the paddle can't move veritcally
-            topBrick.position.x = location.x
-            bottomBrick.position.x = location.x
+//            topBrick.position.x = location.x
+//            bottomBrick.position.x = location.x
         }
         for startButtonTouch in touches {
             startButton.isHidden = true
@@ -195,20 +199,23 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
         }
     }
     
-//    func didBegin(_ contact: SKPhysicsContact) {
-//        print("a: \(contact.bodyA.node?.name)")
-//        print("b: \(contact.bodyB.node?.name)")
-//
-//        if contact.bodyA.node?.name == "bottomBrick" || contact.bodyB.node?.name == "bottomBrick" || contact.bodyA.node?.name == "topBrick" || contact.bodyB.node?.name == "topBrick" {
-//            //lives.text = "You lose"
-//            print("You lose!")
-//            ball.removeFromParent() //removes ball from game
-//            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-//               // self.restart()
-//            }
-//
-//        }
-//    }
+    func didBegin(_ contact: SKPhysicsContact) {
+        print("a: \(contact.bodyA.node?.name)")
+        print("b: \(contact.bodyB.node?.name)")
+
+        if contact.bodyA.node?.name == "bottomBrick" || contact.bodyB.node?.name == "bottomBrick" || contact.bodyA.node?.name == "topBrick" || contact.bodyB.node?.name == "topBrick" {
+            pointsLabel.text = "You lose"
+            print("You lose!")
+            ball.removeFromParent() //removes ball from game
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+               // self.restart()
+            }
+
+        }
+        else {
+            number += 1
+        }
+    }
     
     
     
