@@ -84,6 +84,7 @@ class GameScene: SKScene {
 //        physicsWorld.gravity = .zero
 //        
         
+        // I hate github - Zoe
         addChild(ball)
         
     }
