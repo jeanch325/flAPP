@@ -15,12 +15,10 @@ class GameScene: SKScene {
     var topBrick = SKSpriteNode()
     var ball = SKShapeNode()
     let wait = SKAction.wait(forDuration: 4.0) //change countdown speed here
-    var heightsArray = [100, 200, 300, 400]
+    var heightsArray = [30, 40, 50, 60, 70]
     var height = 300
-    
-    
-    
- 
+    var center = 50
+    let displaySize: CGRect = UIScreen.main.bounds
     
     
     override func didMove(to view: SKView) {
@@ -31,9 +29,14 @@ class GameScene: SKScene {
     }
     
     func makeBottomBrick() {
-        bottomBrick = SKSpriteNode(color: UIColor.blue, size: CGSize(width: 100, height: height + 400))
+        let displayWidth = self.displaySize.width
+        let displayHeight = self.displaySize.height
+        var heights = CGFloat(height*Int(displayWidth)/100)
+        bottomBrick = SKSpriteNode(color: UIColor.blue, size: CGSize(width: 100, height: heights))
+        print(heights)
         bottomBrick.zPosition = 1
-        bottomBrick.position = CGPoint(x: frame.maxX + 50, y: frame.minY + 50)
+        center = height/2
+        bottomBrick.position = CGPoint(x: frame.maxX + 50, y: frame.minY + CGFloat(center))
         bottomBrick.name = "bottomBrick"
         bottomBrick.physicsBody = SKPhysicsBody(rectangleOf: bottomBrick.size)
         bottomBrick.physicsBody?.isDynamic = false
@@ -90,10 +93,14 @@ class GameScene: SKScene {
     
     func makeBottomBricks(){
         for i in 1...10{
-            height = heightsArray[i % 4]
-            print("height: \(height)")
+            let displayWidth = self.displaySize.width
+            let displayHeight = self.displaySize.height
+            var heights = CGFloat(height*Int(displayWidth)/100)
+            height = heightsArray[i % 5]
+            center = Int(heights)/2
+            print("height: \(height), center:\(center)")
             makeBottomBrick()
-            let moveBottomLeft = SKAction.move(to: CGPoint(x: frame.minX - 50,y: frame.minY + 50), duration:4.0)
+            let moveBottomLeft = SKAction.move(to: CGPoint(x: frame.minX - 50,y: frame.minY + CGFloat(center)), duration:4.0)
             let wait1 = SKAction.wait(forDuration: 4.0*Double(i)) //change countdown speed here
             let sequence = SKAction.sequence([wait1, moveBottomLeft])
             bottomBrick.run(sequence)
@@ -101,11 +108,6 @@ class GameScene: SKScene {
         
         
     }
-    
-    
-
-    
-    
 }
 
 
