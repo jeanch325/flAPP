@@ -13,7 +13,7 @@ import AVFoundation
 
 class GameScene: SKScene, SKPhysicsContactDelegate{
     
-    
+   
     var ball = SKShapeNode()
     var bottomBrick = SKSpriteNode()
     var topBrick = SKSpriteNode()
@@ -25,6 +25,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
     var pointsLabel = SKLabelNode()
     var number = 0
     var startButton = SKLabelNode()
+    var sequence = SKAction() //was declared inside of moveBricks()
+    var youLose = SKLabelNode()
     
     
     
@@ -84,7 +86,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
             makeTopBrick()
             let moveBottomLeft = SKAction.move(to: CGPoint(x: frame.minX - 50,y: frame.minY + CGFloat(centerBottom)), duration:4.0)
             let wait1 = SKAction.wait(forDuration: 3.0*Double(i)) //change countdown speed here
-            let sequence = SKAction.sequence([wait1, moveBottomLeft])
+            sequence = SKAction.sequence([wait1, moveBottomLeft]) //was declared here
             bottomBrick.run(sequence)
             let moveTopLeft = SKAction.move(to: CGPoint(x: frame.minX - 50,y: frame.maxY - CGFloat(centerTop)), duration:4.0)
             let wait2 = SKAction.wait(forDuration: 3.0*Double(i)) //change countdown speed here
@@ -111,23 +113,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
     }
     
     
+//    let sky = SKTexture(imageNamed: "sky")
+//    for i in 0...1 {
+//    let skyBackground = SKSpriteNode(texture: sky)
+//    skyBackground.zPosition = -5
+//    skyBackground.size.height = frame.height
+//    skyBackground.size.width = frame.width * 2
+//    skyBackground.position = CGPoint(x: skyBackground.size.width * CGFloat(i), y: 0)
+//    addChild(skyBackground)
+//    let moveLeft = SKAction.moveBy(x: -skyBackground.size.width, y: 0, duration: 20)
+//    let moveReset = SKAction.moveBy(x: skyBackground.size.width, y: 0, duration: 0)
+//    let moveLoop = SKAction.sequence([moveLeft, moveReset])
+//    let moveForever = SKAction.repeatForever(moveLoop)
+//    skyBackground.run(moveForever)
 //
-//    func createBackground() {
-//        let sky = SKTexture(imageNamed: "sky")
-//        for i in 0...1 {
-//            let skyBackground = SKSpriteNode(texture: sky)
-//            skyBackground.zPosition = -5
-//            skyBackground.size.height = frame.height
-//            skyBackground.size.width = frame.width * 2
-//            skyBackground.position = CGPoint(x: skyBackground.size.width * CGFloat(i), y: 0)
-//            addChild(skyBackground)
-//            let moveLeft = SKAction.moveBy(x: -skyBackground.size.width, y: 0, duration: 20)
-//            let moveReset = SKAction.moveBy(x: skyBackground.size.width, y: 0, duration: 0)
-//            let moveLoop = SKAction.sequence([moveLeft, moveReset])
-//            let moveForever = SKAction.repeatForever(moveLoop)
-//            skyBackground.run(moveForever)
-//
-//        }
 //    }
     
     
@@ -160,8 +159,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
         
         
     }
-    
-    func createStartButton() {
+        func createStartButton() {
         startButton.position = CGPoint(x: frame.midX, y: frame.midY)
         startButton.text = "Tap to Start"
         startButton.color = .clear
@@ -179,8 +177,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
         pointsLabel.fontSize = 30
         pointsLabel.position = CGPoint(x: -150, y: -350)
         pointsLabel.fontColor = .black
-        addChild(pointsLabel)
         pointsLabel.color = .white
+        addChild(pointsLabel)
+        
     }
     
     
@@ -221,22 +220,44 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
         print("brick position : \(topBrick.position)")
         print("ball position: \(ball.position)")
         
-        if contact.bodyA.node?.name == "bottomBrick" /*|| contact.bodyB.node?.name == "bottomBrick"*/ || contact.bodyA.node?.name == "topBrick" /*|| contact.bodyB.node?.name == "topBrick" */{
+        if contact.bodyA.node?.name == "bottomBrick" || contact.bodyB.node?.name == "bottomBrick" || contact.bodyA.node?.name == "topBrick" || contact.bodyB.node?.name == "topBrick" {
             pointsLabel.text = "You lose"
             print("You lose!")
             ball.removeFromParent() //removes ball from game
-            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                // self.restart()
-            }
+                restart()
             
         }
+            
         else {
             number += 1
         }
     }
     
-  
+    func restart() {
+        print("restart")
+        removeAllChildren()
+        youLoseText()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+           self.youLose.removeFromParent()
+            self.makeBall()
+            self.createStartButton()
+            self.moveBricks()
+            self.makePoints()
+        }
+    }
     
+    func youLoseText() {
+        youLose.position = CGPoint(x: frame.midX, y: frame.midY)
+        youLose.text = "You Lose!"
+        youLose.fontColor = .white
+        
+        youLose.fontName = "Marker Felt"
+        youLose.fontSize = 60
+        youLose.name = "you lose"
+        youLose.zPosition = 2
+        
+        addChild(youLose)
+    }
     
 }
 
