@@ -181,8 +181,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
         pointsLabel.text = "Points: \(number)"
         pointsLabel.zPosition = 5
         pointsLabel.fontSize = 30
-        pointsLabel.position = CGPoint(x: -150, y: -350)
+        pointsLabel.position = CGPoint(x: -120, y: -320)
         pointsLabel.fontColor = .black
+        pointsLabel.fontName = "Marker Felt"
         pointsLabel.color = .white
         addChild(pointsLabel)
         
