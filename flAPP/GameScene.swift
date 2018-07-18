@@ -19,11 +19,14 @@ class GameScene: SKScene {
     let wait = SKAction.wait(forDuration: 4.0) //change countdown speed here
     var heightsArray = [30, 40, 50, 60, 70]
     var height = 300
-    var center = 50
+    var centerTop = 50
     let displaySize: CGRect = UIScreen.main.bounds
      var pointsLabel = SKLabelNode()
     var number = 0
     var audioPlayer = AVAudioPlayer()
+    var centerBottom = 100
+   var startButton = SKLabelNode()
+    
     
   
     
@@ -37,6 +40,8 @@ class GameScene: SKScene {
         audioPlayer.prepareToPlay()
          audioPlayer.numberOfLoops = -1
         audioPlayer.play()
+        moveBricks()
+        createStartButton()
         
      
         
@@ -46,15 +51,56 @@ class GameScene: SKScene {
         
     }
     
+//    func makeBottomBrick() {
+//        let displayWidth = self.displaySize.width
+//        let displayHeight = self.displaySize.height
+//        var heights = CGFloat(height*Int(displayWidth)/100)
+//        bottomBrick = SKSpriteNode(color: UIColor.blue, size: CGSize(width: 100, height: heights))
+//        print(heights)
+//        bottomBrick.zPosition = 1
+//        center = height/2
+//        bottomBrick.position = CGPoint(x: frame.maxX + 50, y: frame.minY + CGFloat(center))
+//        bottomBrick.name = "bottomBrick"
+//        bottomBrick.physicsBody = SKPhysicsBody(rectangleOf: bottomBrick.size)
+//        bottomBrick.physicsBody?.isDynamic = false
+//        bottomBrick.zPosition = 4
+//        addChild(bottomBrick)
+//    }
+//
+//    func makeTopBrick() {
+//        topBrick = SKSpriteNode(color: .blue, size: CGSize(width: 50, height: 20))
+//        topBrick.zPosition = 1
+//        topBrick.position = CGPoint(x: frame.midX, y: frame.maxY - 30)
+//        topBrick.name = "topBrick"
+//        topBrick.physicsBody = SKPhysicsBody(rectangleOf: bottomBrick.size)
+//        topBrick.physicsBody?.isDynamic = false
+//        addChild(topBrick)
+//    }
+//
+//    func makeBottomBricks(){
+//        for i in 1...10{
+//            let displayWidth = self.displaySize.width
+//            let displayHeight = self.displaySize.height
+//            var heights = CGFloat(height*Int(displayWidth)/100)
+//            height = heightsArray[i % 5]
+//            center = Int(heights)/2
+//            print("height: \(height), center:\(center)")
+//            makeBottomBrick()
+//            let moveBottomLeft = SKAction.move(to: CGPoint(x: frame.minX - 50,y: frame.minY + CGFloat(center)), duration:4.0)
+//            let wait1 = SKAction.wait(forDuration: 4.0*Double(i)) //change countdown speed here
+//            let sequence = SKAction.sequence([wait1, moveBottomLeft])
+//            bottomBrick.run(sequence)
+//        }
+//    }
+    
+    
     func makeBottomBrick() {
-        let displayWidth = self.displaySize.width
         let displayHeight = self.displaySize.height
-        var heights = CGFloat(height*Int(displayWidth)/100)
-        bottomBrick = SKSpriteNode(color: UIColor.blue, size: CGSize(width: 100, height: heights))
-        print(heights)
+        var heightsBottom = CGFloat(height*Int(displayHeight)/100)
+        bottomBrick = SKSpriteNode(color: UIColor.red, size: CGSize(width: 100, height: heightsBottom))
         bottomBrick.zPosition = 1
-        center = height/2
-        bottomBrick.position = CGPoint(x: frame.maxX + 50, y: frame.minY + CGFloat(center))
+        centerBottom = Int(heightsBottom)/2
+        bottomBrick.position = CGPoint(x: frame.maxX + 50, y: frame.minY + CGFloat(centerBottom))
         bottomBrick.name = "bottomBrick"
         bottomBrick.physicsBody = SKPhysicsBody(rectangleOf: bottomBrick.size)
         bottomBrick.physicsBody?.isDynamic = false
@@ -63,31 +109,43 @@ class GameScene: SKScene {
     }
     
     func makeTopBrick() {
-        topBrick = SKSpriteNode(color: .blue, size: CGSize(width: 50, height: 20))
+        let displayWidth = self.displaySize.width
+        let displayHeight = self.displaySize.height
+        var heightsTop = CGFloat((90 - height)*Int(displayHeight)/100)
+        topBrick = SKSpriteNode(color: .blue, size: CGSize(width: 100, height: heightsTop))
         topBrick.zPosition = 1
-        topBrick.position = CGPoint(x: frame.midX, y: frame.maxY - 30)
+        centerTop = Int(heightsTop)/2
+        topBrick.position = CGPoint(x: frame.maxX + 50, y: frame.maxY - CGFloat(centerTop))
         topBrick.name = "topBrick"
         topBrick.physicsBody = SKPhysicsBody(rectangleOf: bottomBrick.size)
         topBrick.physicsBody?.isDynamic = false
+        topBrick.zPosition = 4
         addChild(topBrick)
     }
     
-    func makeBottomBricks(){
+    func moveBricks(){
         for i in 1...10{
             let displayWidth = self.displaySize.width
             let displayHeight = self.displaySize.height
-            var heights = CGFloat(height*Int(displayWidth)/100)
+            var heightsBottom = CGFloat(height*Int(displayHeight)/100)
+            var heightsTop = CGFloat((85 - height)*Int(displayHeight)/100)
             height = heightsArray[i % 5]
-            center = Int(heights)/2
-            print("height: \(height), center:\(center)")
+            centerBottom = Int(heightsBottom)/2
+            centerTop = Int(heightsTop)/2
             makeBottomBrick()
-            let moveBottomLeft = SKAction.move(to: CGPoint(x: frame.minX - 50,y: frame.minY + CGFloat(center)), duration:4.0)
+            makeTopBrick()
+            let moveBottomLeft = SKAction.move(to: CGPoint(x: frame.minX - 50,y: frame.minY + CGFloat(centerBottom)), duration:4.0)
             let wait1 = SKAction.wait(forDuration: 4.0*Double(i)) //change countdown speed here
             let sequence = SKAction.sequence([wait1, moveBottomLeft])
             bottomBrick.run(sequence)
+            let moveTopLeft = SKAction.move(to: CGPoint(x: frame.minX - 50,y: frame.maxY - CGFloat(centerTop)), duration:4.0)
+            let wait2 = SKAction.wait(forDuration: 4.0*Double(i)) //change countdown speed here
+            let otherSequence = SKAction.sequence([wait1, moveTopLeft])
+            topBrick.run(otherSequence)
         }
     }
-        
+
+    
         func createBackground() {
             let sky = SKTexture(imageNamed: "sky")
             for i in 0...1 {
@@ -155,6 +213,61 @@ class GameScene: SKScene {
         addChild(pointsLabel)
     }
     
+    func restart (){
+        makeBall()
+        number = 0
+        startButton.isHidden = false
+        audioPlayer.play()
+        
+        
+        }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        //when you first touch the stuff
+        for touch in touches {
+            let location = touch.location(in: self)
+        }
+        
+        //start button
+        for startButtonTouch in touches {
+            startButton.isHidden = true
+            if startButton.isHidden == true {
+                ball.physicsBody?.affectedByGravity = true
+                ball.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 5)) //dx = x magnitude, dy = y magnitude
+            }
+            
+        }
+        
+    }
+    
+    func createStartButton() {
+        startButton.position = CGPoint(x: frame.midX, y: frame.midY)
+        startButton.text = "Tap to Start"
+        startButton.color = .clear
+        startButton.fontColor = .black
+        startButton.fontName = "Marker Felt"
+        startButton.fontSize = 40
+        startButton.name = "start button"
+        startButton.zPosition = 2
+        
+        addChild(startButton)
+
+    
+        func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        for touch in touches {
+            let location = touch.location(in: self)
+            ball.position.x = location.x //only x so the paddle can't move veritcally
+            topBrick.position.x = location.x
+            bottomBrick.position.x = location.x
+        }
+        for startButtonTouch in touches {
+            startButton.isHidden = true
+            if startButton.isHidden == true {
+                
+            }
+        }
+    }
+
     
     
         
@@ -162,6 +275,7 @@ class GameScene: SKScene {
     
 
   
+}
 }
 
 
