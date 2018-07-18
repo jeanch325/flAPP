@@ -10,6 +10,7 @@
 import SpriteKit
 import GameplayKit
 import AVFoundation
+import UIKit
 
 
 class GameScene: SKScene, SKPhysicsContactDelegate{
@@ -39,10 +40,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
         physicsWorld.contactDelegate = self
         self.physicsBody = SKPhysicsBody(edgeLoopFrom: frame)
         
-        //createBackground()
+        createBackground()
         makeBall()
         createStartButton()
-        moveBricks()
+        //moveBricks()
         makePoints()
         let sound = NSURL(fileURLWithPath: Bundle.main.path(forResource:"background", ofType: "mp3")!)
         try? audioPlayer = AVAudioPlayer(contentsOf: sound as URL)
@@ -112,7 +113,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
             let otherSequence = SKAction.sequence([wait1, moveTopLeft, deleteAction])
             topBrick.run(otherSequence)
         }
-        
+    }
+    
+    func createBackground() {
         let sky = SKTexture(imageNamed: "sky")
         for i in 0...1 {
             let skyBackground = SKSpriteNode(texture: sky)
@@ -130,6 +133,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
         }
         
     }
+
+    
     
     
     //    let sky = SKTexture(imageNamed: "sky")
@@ -194,8 +199,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
     
     func makePoints() {
         pointsLabel.fontSize = 30
-        pointsLabel.position = CGPoint(x: -150, y: -350)
+        pointsLabel.position = CGPoint(x: -120, y: -320)
         pointsLabel.fontColor = .black
+        pointsLabel.fontName = "Marker Felt"
         pointsLabel.color = .white
         addChild(pointsLabel)
         number = 0
@@ -221,6 +227,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
             if startButton.isHidden == true {
                 ball.physicsBody?.affectedByGravity = true
                 ball.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 4)) //dx = x magnitude, dy = y magnitude
+                if hasBeenTapped == false {
+                    moveBricks()
+                }
+            hasBeenTapped = true
             }
             
         }
@@ -256,11 +266,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
       
         
     }
-    
+
     func restart() {
         print("restart")
         removeAllChildren()
-        youLoseText()
+        //youLoseText()
         DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
             self.youLose.removeFromParent()
             self.makeBall()
@@ -272,6 +282,21 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
             
         }
     }
+
+//    func youLoseText() {
+//        youLose.position = CGPoint(x: frame.midX, y: frame.midY)
+//        youLose.text = "You Lose!"
+//        youLose.fontColor = .white
+//        youLose.fontName = "Marker Felt"
+//        youLose.fontSize = 60
+//        youLose.name = "you lose"
+//        youLose.zPosition = 2
+//        addChild(youLose)
+//    }
+    
+    
+    
+    
     
     func youLoseText() {
         youLose.position = CGPoint(x: frame.midX, y: frame.midY)

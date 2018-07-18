@@ -10,26 +10,40 @@ import UIKit
 import SpriteKit
 import GameplayKit
 
-class GameViewController: UIViewController {
+protocol GameSegueDelegate {
+    func callSegue()
+}
+
+class GameViewController: UIViewController, GameSegueDelegate {
+    
+    var myGameScene: GameScene!
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
         if let view = self.view as! SKView? {
             // Load the SKScene from 'GameScene.sks'
             if let scene = SKScene(fileNamed: "GameScene") {
+                myGameScene = scene as! GameScene
+                myGameScene.segueDelegate = self
                 // Set the scale mode to scale to fit the window
                 scene.scaleMode = .resizeFill
-                
                 // Present the scene
                 view.presentScene(scene)
+                
             }
             
             view.ignoresSiblingOrder = true
             
             view.showsFPS = true
             view.showsNodeCount = true
+           
         }
+    }
+    
+    func callSegue() {
+        performSegue(withIdentifier: "gameOver", sender: nil)
     }
 
     override var shouldAutorotate: Bool {
@@ -51,5 +65,9 @@ class GameViewController: UIViewController {
 
     override var prefersStatusBarHidden: Bool {
         return true
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        print("This actually worked!")
     }
 }
