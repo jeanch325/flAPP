@@ -20,17 +20,28 @@
                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <viewLayoutGuide key="safeArea" id="4qk-I5-YsI"/>
                     </view>
+                    <connections>
+                        <segue destination="JFc-gE-jV8" kind="show" identifier="gameOver" id="owR-dD-KYG"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SZV-WD-TEh" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="65" y="-48"/>
         </scene>
-        <!--View Controller-->
+        <!--Second View Controller-->
         <scene sceneID="B7e-qh-fBr">
             <objects>
-                <viewController id="JFc-gE-jV8" sceneMemberID="viewController"/>
+                <viewController id="JFc-gE-jV8" customClass="SecondViewController" customModule="flAPP" customModuleProvider="target" sceneMemberID="viewController">
+                    <button key="view" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="IEa-HU-PDL">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <fontDescription key="fontDescription" name="MarkerFelt-Thin" family="Marker Felt" pointSize="60"/>
+                        <state key="normal" title="You lost!"/>
+                    </button>
+                </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6WK-98-2db" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="767" y="34"/>
+            <point key="canvasLocation" x="916" y="-15"/>
         </scene>
     </scenes>
 </document>

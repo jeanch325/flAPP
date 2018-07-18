@@ -9,11 +9,11 @@
 import SpriteKit
 import GameplayKit
 import AVFoundation
+import UIKit
 
 
 class GameScene: SKScene, SKPhysicsContactDelegate{
-    
-   
+    //var viewController: GameViewController?
     var ball = SKShapeNode()
     var bottomBrick = SKSpriteNode()
     var topBrick = SKSpriteNode()
@@ -27,6 +27,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
     var startButton = SKLabelNode()
     var sequence = SKAction() //was declared inside of moveBricks()
     var youLose = SKLabelNode()
+    var segueDelegate: GameSegueDelegate?
     
     
     
@@ -174,6 +175,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
     
     func makePoints() {
         pointsLabel.text = "Points: \(number)"
+        pointsLabel.zPosition = 5
         pointsLabel.fontSize = 30
         pointsLabel.position = CGPoint(x: -150, y: -350)
         pointsLabel.fontColor = .black
@@ -224,12 +226,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
             pointsLabel.text = "You lose"
             print("You lose!")
             ball.removeFromParent() //removes ball from game
-                restart()
+                //restart()
+//            self.viewController?.performSegue(withIdentifier: "gameOver", sender: nil)
+            segueDelegate?.callSegue()
+            
+            
             
         }
             
         else {
-            number += 1
+            number = number + 1
+            pointsLabel.text = "Points: \(number)"
+
         }
     }
     
@@ -254,9 +262,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
         youLose.fontSize = 60
         youLose.name = "you lose"
         youLose.zPosition = 2
-        
         addChild(youLose)
     }
+    
+    
+    
+    
+    
     
 }
 
