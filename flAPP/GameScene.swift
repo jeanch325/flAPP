@@ -250,7 +250,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
         youLose.position = CGPoint(x: frame.midX, y: frame.midY)
         youLose.text = "You Lose!"
         youLose.fontColor = .white
-        
         youLose.fontName = "Marker Felt"
         youLose.fontSize = 60
         youLose.name = "you lose"
