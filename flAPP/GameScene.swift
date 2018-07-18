@@ -234,7 +234,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
             pointsLabel.text = "You lose"
             print("You lose!")
             ball.removeFromParent() //removes ball from game
-                //restart()
+                restart()
 //            self.viewController?.performSegue(withIdentifier: "gameOver", sender: nil)
             segueDelegate?.callSegue()
             
@@ -246,20 +246,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
 //          where sanya needs to put the fricking restart function
         }
     }
-//
-//    func restart() {
-//        print("restart")
-//        removeAllChildren()
-//        youLoseText()
-//        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-//           self.youLose.removeFromParent()
-//            self.makeBall()
-//            self.createStartButton()
-//            self.moveBricks()
-//            self.makePoints()
-//        }
-//    }
-//
+
+    func restart() {
+        print("restart")
+        removeAllChildren()
+        //youLoseText()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+           self.youLose.removeFromParent()
+            self.makeBall()
+            self.createStartButton()
+            self.moveBricks()
+            self.makePoints()
+        }
+    }
+
 //    func youLoseText() {
 //        youLose.position = CGPoint(x: frame.midX, y: frame.midY)
 //        youLose.text = "You Lose!"
