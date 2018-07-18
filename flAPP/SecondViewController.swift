@@ -9,8 +9,8 @@
 import UIKit
 
 class SecondViewController: UIViewController{
-
     
+    var data = ""
     
 //    @IBAction func youLostButton(_ sender: Any) {
 //        youLostButton.text = "Score: \(). Tap to restart"
@@ -29,6 +29,7 @@ class SecondViewController: UIViewController{
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
     
     
 

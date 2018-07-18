@@ -17,6 +17,7 @@ protocol GameSegueDelegate {
 class GameViewController: UIViewController, GameSegueDelegate {
     
     var myGameScene: GameScene!
+    var data = ""
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -69,5 +70,7 @@ class GameViewController: UIViewController, GameSegueDelegate {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         print("This actually worked!")
+        let dvc = segue.destination as! SecondViewController
+        dvc.data = "fun"
     }
 }

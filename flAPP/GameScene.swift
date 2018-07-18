@@ -32,6 +32,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
     var segueDelegate: GameSegueDelegate?
     var audioPlayer = AVAudioPlayer()
     var hasBeenTapped = false
+    var data = ""
+    var finalPoints = 0
    
  
     
@@ -88,7 +90,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
     }
     
     //MOVING THE BRICKS
-    func moveBricks(){
+    func moveBricks() -> Int {
         for i in 1...100{
             let pick = arc4random_uniform(41)+30
             let displayWidth = self.displaySize.width
@@ -117,7 +119,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
             let wait2 = SKAction.wait(forDuration: 3.0*Double(i)) //change countdown speed here
             let otherSequence = SKAction.sequence([wait1, moveTopLeft, deleteAction])
             topBrick.run(otherSequence)
+            return(self.number)
         }
+        return(self.number)
     }
     
     //CREATING & MOVING BACKGROUND
@@ -214,7 +218,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
                 ball.physicsBody?.affectedByGravity = true
                 ball.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 4)) //dx = x magnitude, dy = y magnitude
                 if hasBeenTapped == false {
-                    moveBricks()
+                    //moveBricks()
+                    finalPoints = moveBricks()
+                    
+                    
+                    
                 }
                 hasBeenTapped = true
             }
@@ -249,6 +257,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
             print("You lose!")
             ball.removeFromParent() //removes ball from game
             self.audioPlayer.stop()
+            print(finalPoints)
             restart()
             //            self.viewController?.performSegue(withIdentifier: "gameOver", sender: nil)
             segueDelegate?.callSegue()
@@ -275,10 +284,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
             self.makePoints()
             self.pointsLabel.text = "Points: 0"
             self.startButton.isHidden = false
-//            self.audioPlayer.isPlaying == false
             
         }
     }
+}
     
     //    func youLoseText() {
     //        youLose.position = CGPoint(x: frame.midX, y: frame.midY)
@@ -294,23 +303,23 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
     
     
     
-    
-    func youLoseText() {
-        youLose.position = CGPoint(x: frame.midX, y: frame.midY)
-        youLose.text = "You Lose!"
-        youLose.fontColor = .white
-        youLose.fontName = "Marker Felt"
-        youLose.fontSize = 60
-        youLose.name = "you lose"
-        youLose.zPosition = 2
-        addChild(youLose)
-    }
+//
+//    func youLoseText() {
+//        youLose.position = CGPoint(x: frame.midX, y: frame.midY)
+//        youLose.text = "You Lose!"
+//        youLose.fontColor = .white
+//        youLose.fontName = "Marker Felt"
+//        youLose.fontSize = 60
+//        youLose.name = "you lose"
+//        youLose.zPosition = 2
+//        addChild(youLose)
+//    }
 
     
     
     
    
-}
+
 
 // just to check if it works
 
