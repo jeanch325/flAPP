@@ -32,11 +32,16 @@
         <scene sceneID="B7e-qh-fBr">
             <objects>
                 <viewController id="JFc-gE-jV8" customClass="SecondViewController" customModule="flAPP" customModuleProvider="target" sceneMemberID="viewController">
-                    <button key="view" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="IEa-HU-PDL">
+                    <button key="view" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" adjustsImageSizeForAccessibilityContentSizeCategory="YES" lineBreakMode="middleTruncation" id="IEa-HU-PDL" userLabel="You lost!">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <fontDescription key="fontDescription" name="MarkerFelt-Thin" family="Marker Felt" pointSize="60"/>
-                        <state key="normal" title="You lost! "/>
+                        <fontDescription key="fontDescription" name="MarkerFelt-Thin" family="Marker Felt" pointSize="35"/>
+                        <state key="normal" title="Score: . Tap to restart" backgroundImage="you lose screen sky">
+                            <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        </state>
+                        <connections>
+                            <segue destination="BV1-FR-VrT" kind="show" id="wQ6-aI-nNl"/>
+                        </connections>
                     </button>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6WK-98-2db" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -44,4 +49,7 @@
             <point key="canvasLocation" x="916" y="-15"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="you lose screen sky" width="337" height="574"/>
+    </resources>
 </document>

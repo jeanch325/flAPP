@@ -8,8 +8,17 @@
 
 import UIKit
 
-class SecondViewController: UIViewController {
+class SecondViewController: UIViewController{
 
+    
+    
+//    @IBAction func youLostButton(_ sender: Any) {
+//        youLostButton.text = "Score: \(). Tap to restart"
+//        
+//    }
+//    
+
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -20,6 +29,7 @@ class SecondViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
     
 
     /*
