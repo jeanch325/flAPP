@@ -5,6 +5,7 @@
 //  Created by Jean Cho on 7/13/18.
 //  Copyright © 2018 Jean Cho. All rights reserved.
 
+
 import SpriteKit
 import GameplayKit
 import AVFoundation
@@ -28,8 +29,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
     var startButton = SKLabelNode()
     var sequence = SKAction() //was declared inside of moveBricks()
     var youLose = SKLabelNode()
-    var segueDelegate: GameSegueDelegate?
-    var hasBeenTapped = false
+    var audioPlayer = AVAudioPlayer()
+   
+ 
     
     
     //WHEN IT FIRST LOADS
@@ -43,6 +45,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
         createStartButton()
         //moveBricks()
         makePoints()
+        let sound = NSURL(fileURLWithPath: Bundle.main.path(forResource:"background", ofType: "mp3")!)
+        try? audioPlayer = AVAudioPlayer(contentsOf: sound as URL)
+        audioPlayer.prepareToPlay()
+        audioPlayer.numberOfLoops = -1
+        audioPlayer.play()
+        
         
     }
     
@@ -90,13 +98,22 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
             centerTop = Int(heightsTop)/2
             makeBottomBrick()
             makeTopBrick()
+            
+            let deleteAction = SKAction.run {
+                print("deleting the top brick")
+                self.number = self.number + 1
+                self.pointsLabel.text = "Points: \(self.number)"
+                self.topBrick.removeFromParent()
+            }
+            
             let moveBottomLeft = SKAction.move(to: CGPoint(x: frame.minX - 50,y: frame.minY + CGFloat(centerBottom)), duration:4.0)
             let wait1 = SKAction.wait(forDuration: 3.0*Double(i)) //change countdown speed here
             sequence = SKAction.sequence([wait1, moveBottomLeft]) //was declared here
             bottomBrick.run(sequence)
+            
             let moveTopLeft = SKAction.move(to: CGPoint(x: frame.minX - 50,y: frame.maxY - CGFloat(centerTop)), duration:4.0)
             let wait2 = SKAction.wait(forDuration: 3.0*Double(i)) //change countdown speed here
-            let otherSequence = SKAction.sequence([wait1, moveTopLeft])
+            let otherSequence = SKAction.sequence([wait1, moveTopLeft, deleteAction])
             topBrick.run(otherSequence)
         }
     }
@@ -118,6 +135,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
             skyBackground.run(moveForever)
             
         }
+        
     }
     
     //CREATING BALL
@@ -140,6 +158,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
         ball.physicsBody?.restitution = 0
         ball.physicsBody?.linearDamping = 1
         ball.physicsBody?.contactTestBitMask = (ball.physicsBody?.collisionBitMask)!
+        //print((ball.physicsBody?.collisionBitMask)!)
         let range = SKRange(lowerLimit: frame.minY, upperLimit: frame.maxY)
         let lockToCenter = SKConstraint.positionX(range, y: range)
         ball.constraints = [lockToCenter]
@@ -163,16 +182,21 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
     
     //POINTS LABEL
     func makePoints() {
-        pointsLabel.text = "Points: \(number)"
-        pointsLabel.zPosition = 5
         pointsLabel.fontSize = 30
         pointsLabel.position = CGPoint(x: -120, y: -320)
         pointsLabel.fontColor = .black
         pointsLabel.fontName = "Marker Felt"
         pointsLabel.color = .white
         addChild(pointsLabel)
+        number = 0
+        pointsLabel.text = "Points: \(number)"
+//        var contact = SKPhysicsContact.self
+//        if !contact.bodyA.node?.name == "bottomBrick" || !contact.bodyB.node?.name == "bottomBrick" || !contact.bodyA.node?.name == "topBrick" || !contact.bodyB.node?.name == "topBrick"{
+//            number = number + 1
+//            pointsLabel.text = "Points: \(number)"
+        }
         
-    }
+    
     
     //ONE TOUCH
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -218,7 +242,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
         print("brick position : \(topBrick.position)")
         print("ball position: \(ball.position)")
         
-        if contact.bodyA.node?.name == "bottomBrick" || contact.bodyB.node?.name == "bottomBrick" || contact.bodyA.node?.name == "topBrick" || contact.bodyB.node?.name == "topBrick" {
+        if (contact.bodyA.node?.name == "bottomBrick" || contact.bodyB.node?.name == "bottomBrick" || contact.bodyA.node?.name == "topBrick" || contact.bodyB.node?.name == "topBrick") && (contact.bodyA.node?.name == "ball" || contact.bodyB.node?.name == "ball") {
             pointsLabel.text = "You lose"
             print("You lose!")
             ball.removeFromParent() //removes ball from game
@@ -231,6 +255,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
         else {
             //          where sanya needs to put the fricking restart function
         }
+      
+        
     }
     
     //RESTART
@@ -244,6 +270,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
             self.createStartButton()
             self.moveBricks()
             self.makePoints()
+            self.pointsLabel.text = "Points: 0"
+            self.startButton.isHidden = false
+            
         }
     }
     
@@ -262,10 +291,28 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
     
     
     
+    func youLoseText() {
+        youLose.position = CGPoint(x: frame.midX, y: frame.midY)
+        youLose.text = "You Lose!"
+        youLose.fontColor = .white
+        youLose.fontName = "Marker Felt"
+        youLose.fontSize = 60
+        youLose.name = "you lose"
+        youLose.zPosition = 2
+        addChild(youLose)
+    }
+
     
+    
+    
+   
 }
 
 // just to check if it works
+
+
+
+
 
 
 
