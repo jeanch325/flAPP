@@ -28,6 +28,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
     var sequence = SKAction() //was declared inside of moveBricks()
     var youLose = SKLabelNode()
     var segueDelegate: GameSegueDelegate?
+    var hasBeenTapped = false
     
     
     
@@ -36,10 +37,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
         physicsWorld.contactDelegate = self
         self.physicsBody = SKPhysicsBody(edgeLoopFrom: frame)
         
-        //createBackground()
+        createBackground()
         makeBall()
         createStartButton()
-        moveBricks()
+        //moveBricks()
         makePoints()
         
     }
@@ -94,7 +95,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
             let otherSequence = SKAction.sequence([wait1, moveTopLeft])
             topBrick.run(otherSequence)
         }
-        
+    }
+    
+    func createBackground() {
         let sky = SKTexture(imageNamed: "sky")
         for i in 0...1 {
             let skyBackground = SKSpriteNode(texture: sky)
@@ -110,8 +113,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
             skyBackground.run(moveForever)
             
         }
-
     }
+
+    
     
     
 //    let sky = SKTexture(imageNamed: "sky")
@@ -197,6 +201,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
             if startButton.isHidden == true {
                 ball.physicsBody?.affectedByGravity = true
                 ball.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 4)) //dx = x magnitude, dy = y magnitude
+                if hasBeenTapped == false {
+                    moveBricks()
+                }
+            hasBeenTapped = true
             }
             
         }
@@ -235,35 +243,33 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
         }
             
         else {
-            number = number + 1
-            pointsLabel.text = "Points: \(number)"
-
+//          where sanya needs to put the fricking restart function
         }
     }
-    
-    func restart() {
-        print("restart")
-        removeAllChildren()
-        youLoseText()
-        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-           self.youLose.removeFromParent()
-            self.makeBall()
-            self.createStartButton()
-            self.moveBricks()
-            self.makePoints()
-        }
-    }
-    
-    func youLoseText() {
-        youLose.position = CGPoint(x: frame.midX, y: frame.midY)
-        youLose.text = "You Lose!"
-        youLose.fontColor = .white
-        youLose.fontName = "Marker Felt"
-        youLose.fontSize = 60
-        youLose.name = "you lose"
-        youLose.zPosition = 2
-        addChild(youLose)
-    }
+//
+//    func restart() {
+//        print("restart")
+//        removeAllChildren()
+//        youLoseText()
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+//           self.youLose.removeFromParent()
+//            self.makeBall()
+//            self.createStartButton()
+//            self.moveBricks()
+//            self.makePoints()
+//        }
+//    }
+//
+//    func youLoseText() {
+//        youLose.position = CGPoint(x: frame.midX, y: frame.midY)
+//        youLose.text = "You Lose!"
+//        youLose.fontColor = .white
+//        youLose.fontName = "Marker Felt"
+//        youLose.fontSize = 60
+//        youLose.name = "you lose"
+//        youLose.zPosition = 2
+//        addChild(youLose)
+//    }
     
     
     

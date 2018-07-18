@@ -36,7 +36,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <fontDescription key="fontDescription" name="MarkerFelt-Thin" family="Marker Felt" pointSize="60"/>
-                        <state key="normal" title="You lost!"/>
+                        <state key="normal" title="You lost! "/>
                     </button>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6WK-98-2db" userLabel="First Responder" sceneMemberID="firstResponder"/>
