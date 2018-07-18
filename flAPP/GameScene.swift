@@ -4,7 +4,6 @@
 //
 //  Created by Jean Cho on 7/13/18.
 //  Copyright © 2018 Jean Cho. All rights reserved.
-//hi
 
 import SpriteKit
 import GameplayKit
@@ -13,6 +12,8 @@ import UIKit
 
 
 class GameScene: SKScene, SKPhysicsContactDelegate{
+    
+    //DECLARING VARIABLES
     //var viewController: GameViewController?
     var ball = SKShapeNode()
     var bottomBrick = SKSpriteNode()
@@ -31,7 +32,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
     var hasBeenTapped = false
     
     
-    
+    //WHEN IT FIRST LOADS
     override func didMove(to view: SKView) {
         
         physicsWorld.contactDelegate = self
@@ -45,6 +46,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
         
     }
     
+    //BOTTOM BRICK
     func makeBottomBrick() {
         let displayHeight = self.displaySize.height
         var heightsBottom = CGFloat(height*Int(displayHeight)/100)
@@ -59,6 +61,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
         addChild(bottomBrick)
     }
     
+    //TOP BRICK
     func makeTopBrick() {
         //let displayWidth = self.displaySize.width
         let displayHeight = self.displaySize.height
@@ -74,6 +77,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
         addChild(topBrick)
     }
     
+    //MOVING THE BRICKS
     func moveBricks(){
         for i in 1...100{
             let pick = arc4random_uniform(41)+30
@@ -97,6 +101,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
         }
     }
     
+    //CREATING & MOVING BACKGROUND
     func createBackground() {
         let sky = SKTexture(imageNamed: "sky")
         for i in 0...1 {
@@ -114,28 +119,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
             
         }
     }
-
     
-    
-    
-//    let sky = SKTexture(imageNamed: "sky")
-//    for i in 0...1 {
-//    let skyBackground = SKSpriteNode(texture: sky)
-//    skyBackground.zPosition = -5
-//    skyBackground.size.height = frame.height
-//    skyBackground.size.width = frame.width * 2
-//    skyBackground.position = CGPoint(x: skyBackground.size.width * CGFloat(i), y: 0)
-//    addChild(skyBackground)
-//    let moveLeft = SKAction.moveBy(x: -skyBackground.size.width, y: 0, duration: 20)
-//    let moveReset = SKAction.moveBy(x: skyBackground.size.width, y: 0, duration: 0)
-//    let moveLoop = SKAction.sequence([moveLeft, moveReset])
-//    let moveForever = SKAction.repeatForever(moveLoop)
-//    skyBackground.run(moveForever)
-//
-//    }
-    
-    
-    
+    //CREATING BALL
     func makeBall() {
         ball = SKShapeNode(circleOfRadius: 10)
         //ball.zPosition = 1
@@ -146,25 +131,24 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
         ball.physicsBody = SKPhysicsBody(circleOfRadius: 5.6)
         ball.physicsBody?.allowsRotation = false
         ball.physicsBody?.usesPreciseCollisionDetection = true //was false
-//        ball.physicsBody?.categoryBitMask = 0
-//        ball.physicsBody?.collisionBitMask = 0
+        //        ball.physicsBody?.categoryBitMask = 0
+        //        ball.physicsBody?.collisionBitMask = 0
         ball.physicsBody?.friction = 0
         ball.physicsBody?.affectedByGravity = false
         ball.physicsBody?.isDynamic = true
         //was not here:
-                    ball.physicsBody?.restitution = 0
-                    ball.physicsBody?.linearDamping = 1
+        ball.physicsBody?.restitution = 0
+        ball.physicsBody?.linearDamping = 1
         ball.physicsBody?.contactTestBitMask = (ball.physicsBody?.collisionBitMask)!
         let range = SKRange(lowerLimit: frame.minY, upperLimit: frame.maxY)
         let lockToCenter = SKConstraint.positionX(range, y: range)
         ball.constraints = [lockToCenter]
         
-        
         addChild(ball)
-        
-        
     }
-        func createStartButton() {
+    
+    //TAP TO START
+    func createStartButton() {
         startButton.position = CGPoint(x: frame.midX, y: frame.midY)
         startButton.text = "Tap to Start"
         startButton.color = .clear
@@ -177,6 +161,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
         addChild(startButton)
     }
     
+    //POINTS LABEL
     func makePoints() {
         pointsLabel.text = "Points: \(number)"
         pointsLabel.zPosition = 5
@@ -189,14 +174,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
         
     }
     
-    
+    //ONE TOUCH
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         //when you first touch the stuff
         for touch in touches {
             let location = touch.location(in: self)
         }
         
-        //start button
+        //START BUTTON TAPPED
         for startButtonTouch in touches {
             startButton.isHidden = true
             if startButton.isHidden == true {
@@ -205,13 +190,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
                 if hasBeenTapped == false {
                     moveBricks()
                 }
-            hasBeenTapped = true
+                hasBeenTapped = true
             }
             
         }
         
     }
     
+    //IDK WHAT THIS IS
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         for touch in touches {
             let location = touch.location(in: self)
@@ -225,6 +211,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
         }
     }
     
+    //CONTACT
     func didBegin(_ contact: SKPhysicsContact) {
         print("a: \(contact.bodyA.node?.name)")
         print("b: \(contact.bodyB.node?.name)")
@@ -235,42 +222,41 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
             pointsLabel.text = "You lose"
             print("You lose!")
             ball.removeFromParent() //removes ball from game
-                restart()
-//            self.viewController?.performSegue(withIdentifier: "gameOver", sender: nil)
+            restart()
+            //            self.viewController?.performSegue(withIdentifier: "gameOver", sender: nil)
             segueDelegate?.callSegue()
-            
-            
             
         }
             
         else {
-//          where sanya needs to put the fricking restart function
+            //          where sanya needs to put the fricking restart function
         }
     }
-
+    
+    //RESTART
     func restart() {
         print("restart")
         removeAllChildren()
         //youLoseText()
         DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-           self.youLose.removeFromParent()
+            self.youLose.removeFromParent()
             self.makeBall()
             self.createStartButton()
             self.moveBricks()
             self.makePoints()
         }
     }
-
-//    func youLoseText() {
-//        youLose.position = CGPoint(x: frame.midX, y: frame.midY)
-//        youLose.text = "You Lose!"
-//        youLose.fontColor = .white
-//        youLose.fontName = "Marker Felt"
-//        youLose.fontSize = 60
-//        youLose.name = "you lose"
-//        youLose.zPosition = 2
-//        addChild(youLose)
-//    }
+    
+    //    func youLoseText() {
+    //        youLose.position = CGPoint(x: frame.midX, y: frame.midY)
+    //        youLose.text = "You Lose!"
+    //        youLose.fontColor = .white
+    //        youLose.fontName = "Marker Felt"
+    //        youLose.fontSize = 60
+    //        youLose.name = "you lose"
+    //        youLose.zPosition = 2
+    //        addChild(youLose)
+    //    }
     
     
     
