@@ -29,7 +29,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
     var startButton = SKLabelNode()
     var sequence = SKAction() //was declared inside of moveBricks()
     var youLose = SKLabelNode()
+    var segueDelegate: GameSegueDelegate?
     var audioPlayer = AVAudioPlayer()
+    var hasBeenTapped = false
    
  
     
@@ -246,6 +248,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
             pointsLabel.text = "You lose"
             print("You lose!")
             ball.removeFromParent() //removes ball from game
+            self.audioPlayer.stop()
             restart()
             //            self.viewController?.performSegue(withIdentifier: "gameOver", sender: nil)
             segueDelegate?.callSegue()
@@ -272,6 +275,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
             self.makePoints()
             self.pointsLabel.text = "Points: 0"
             self.startButton.isHidden = false
+//            self.audioPlayer.isPlaying == false
             
         }
     }
