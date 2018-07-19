@@ -11,13 +11,15 @@ import SpriteKit
 import GameplayKit
 
 protocol GameSegueDelegate {
-    func callSegue()
+    func callSegue(finalPoints: Int) -> Int
 }
 
 class GameViewController: UIViewController, GameSegueDelegate {
     
+    
+    
     var myGameScene: GameScene!
-    var data = ""
+    var data = 0
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,8 +45,9 @@ class GameViewController: UIViewController, GameSegueDelegate {
         }
     }
     
-    func callSegue() {
+    func callSegue(finalPoints: Int) -> Int {
         performSegue(withIdentifier: "gameOver", sender: nil)
+        return finalPoints
     }
 
     override var shouldAutorotate: Bool {
@@ -68,9 +71,9 @@ class GameViewController: UIViewController, GameSegueDelegate {
         return true
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    func prepare(for segue: UIStoryboardSegue, sender: Any?, finalPoints: Int) {
         print("This actually worked!")
         let dvc = segue.destination as! SecondViewController
-        dvc.data = "fun"
+        dvc.data = finalPoints
     }
 }

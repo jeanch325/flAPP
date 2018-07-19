@@ -32,7 +32,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
     var segueDelegate: GameSegueDelegate?
     var audioPlayer = AVAudioPlayer()
     var hasBeenTapped = false
-    var data = ""
+    var data = 0
     var finalPoints = 0
    
  
@@ -104,10 +104,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
             makeTopBrick()
             
             let deleteAction = SKAction.run {
-                print("deleting the top brick")
-                self.number = self.number + 1
-                self.pointsLabel.text = "Points: \(self.number)"
-                self.topBrick.removeFromParent()
+                self.deleteActionStuff()
+//                print("deleting the top brick")
+//                self.number = self.number + 1
+//                self.pointsLabel.text = "Points: \(self.number)"
+//                self.topBrick.removeFromParent()
             }
             
             let moveBottomLeft = SKAction.move(to: CGPoint(x: frame.minX - 50,y: frame.minY + CGFloat(centerBottom)), duration:4.0)
@@ -119,9 +120,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
             let wait2 = SKAction.wait(forDuration: 3.0*Double(i)) //change countdown speed here
             let otherSequence = SKAction.sequence([wait1, moveTopLeft, deleteAction])
             topBrick.run(otherSequence)
-            return(self.number)
         }
+        //print("At the move bricks, the number is \(self.number)")
         return(self.number)
+        
+    }
+    
+    //ID FUCK ANDREW THE RTA
+    func deleteActionStuff() -> Int{
+        print("deleting the top brick")
+        self.number = self.number + 1
+        self.pointsLabel.text = "Points: \(self.number)"
+        self.topBrick.removeFromParent()
+        return self.number
     }
     
     //CREATING & MOVING BACKGROUND
@@ -218,8 +229,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
                 ball.physicsBody?.affectedByGravity = true
                 ball.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 4)) //dx = x magnitude, dy = y magnitude
                 if hasBeenTapped == false {
-                    //moveBricks()
-                    finalPoints = moveBricks()
+                    moveBricks()
+                    
                     
                     
                     
@@ -257,10 +268,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
             print("You lose!")
             ball.removeFromParent() //removes ball from game
             self.audioPlayer.stop()
-            print(finalPoints)
+            finalPoints = deleteActionStuff() - 1
+            print("\(finalPoints) points right before the segue")
             restart()
             //            self.viewController?.performSegue(withIdentifier: "gameOver", sender: nil)
-            segueDelegate?.callSegue()
+            segueDelegate?.callSegue(finalPoints: finalPoints)
             
         }
             
@@ -270,6 +282,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
       
         
     }
+    
+    
     
     //RESTART
     func restart() {
