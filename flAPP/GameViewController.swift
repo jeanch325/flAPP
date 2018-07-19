@@ -15,17 +15,13 @@ protocol GameSegueDelegate {
 }
 
 class GameViewController: UIViewController, GameSegueDelegate {
-    
-    
-    
+
     var finalPoints = 0
     var myGameScene: GameScene!
     var data = 0
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        
         if let view = self.view as! SKView? {
             // Load the SKScene from 'GameScene.sks'
             if let scene = SKScene(fileNamed: "GameScene") {
@@ -35,26 +31,22 @@ class GameViewController: UIViewController, GameSegueDelegate {
                 scene.scaleMode = .resizeFill
                 // Present the scene
                 view.presentScene(scene)
-                
             }
-            
             view.ignoresSiblingOrder = true
             view.showsFPS = true
             view.showsNodeCount = true
-           
         }
     }
     
     func callSegue(finalPoints: Int) {
         self.finalPoints = finalPoints
-        print("in callSegue, final points are \(finalPoints)")
         performSegue(withIdentifier: "gameOver", sender: nil)
     }
 
     override var shouldAutorotate: Bool {
         return false
     }
-
+    
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
         if UIDevice.current.userInterfaceIdiom == .phone {
             return .allButUpsideDown
@@ -65,7 +57,6 @@ class GameViewController: UIViewController, GameSegueDelegate {
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Release any cached data, images, etc that aren't in use.
     }
 
     override var prefersStatusBarHidden: Bool {
@@ -75,6 +66,5 @@ class GameViewController: UIViewController, GameSegueDelegate {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let dvc = segue.destination as! SecondViewController
         dvc.data = finalPoints
-        print(dvc.data)
     }
 }
