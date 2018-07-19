@@ -126,7 +126,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
         
     }
     
-    //ID FUCK ANDREW THE RTA
+    //no
     func deleteActionStuff() -> Int{
         print("deleting the top brick")
         self.number = self.number + 1
@@ -270,9 +270,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
             self.audioPlayer.stop()
             finalPoints = deleteActionStuff() - 1
             print("\(finalPoints) points right before the segue")
+            segueDelegate?.callSegue(finalPoints: finalPoints)
             restart()
             //            self.viewController?.performSegue(withIdentifier: "gameOver", sender: nil)
-            segueDelegate?.callSegue(finalPoints: finalPoints)
+            
             
         }
             

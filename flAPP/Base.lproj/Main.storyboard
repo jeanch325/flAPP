@@ -40,9 +40,12 @@
                             <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         </state>
                         <connections>
-                            <segue destination="BV1-FR-VrT" kind="show" id="wQ6-aI-nNl"/>
+                            <segue destination="BV1-FR-VrT" kind="show" id="qPQ-5Y-DVZ"/>
                         </connections>
                     </button>
+                    <connections>
+                        <outlet property="yourScore" destination="IEa-HU-PDL" id="ius-O3-qbB"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6WK-98-2db" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

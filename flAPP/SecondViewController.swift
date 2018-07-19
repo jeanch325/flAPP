@@ -12,16 +12,15 @@ class SecondViewController: UIViewController{
     
     var data = 0
     
-//    @IBAction func youLostButton(_ sender: Any) {
-//        youLostButton.text = "Score: \(). Tap to restart"
-//        
-//    }
-//    
+    @IBOutlet var yourScore: UIButton!
+    
 
     
     override func viewDidLoad() {
         super.viewDidLoad()
         print("in the second view controller, the amount of points are \(data)")
+        yourScore.setTitle("Score: \(data)! Tap to restart", for: UIControlState.normal)
+        
 
         // Do any additional setup after loading the view.
     }

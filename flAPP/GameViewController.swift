@@ -11,13 +11,14 @@ import SpriteKit
 import GameplayKit
 
 protocol GameSegueDelegate {
-    func callSegue(finalPoints: Int) -> Int
+    func callSegue(finalPoints: Int)
 }
 
 class GameViewController: UIViewController, GameSegueDelegate {
     
     
     
+    var finalPoints = 0
     var myGameScene: GameScene!
     var data = 0
 
@@ -38,16 +39,16 @@ class GameViewController: UIViewController, GameSegueDelegate {
             }
             
             view.ignoresSiblingOrder = true
-            
             view.showsFPS = true
             view.showsNodeCount = true
            
         }
     }
     
-    func callSegue(finalPoints: Int) -> Int {
+    func callSegue(finalPoints: Int) {
+        self.finalPoints = finalPoints
+        print("in callSegue, final points are \(finalPoints)")
         performSegue(withIdentifier: "gameOver", sender: nil)
-        return finalPoints
     }
 
     override var shouldAutorotate: Bool {
@@ -71,9 +72,9 @@ class GameViewController: UIViewController, GameSegueDelegate {
         return true
     }
     
-    func prepare(for segue: UIStoryboardSegue, sender: Any?, finalPoints: Int) {
-        print("This actually worked!")
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let dvc = segue.destination as! SecondViewController
         dvc.data = finalPoints
+        print(dvc.data)
     }
 }
